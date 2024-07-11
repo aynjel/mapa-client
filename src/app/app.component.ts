@@ -1,38 +1,25 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
+import { Router } from '@angular/router';
+import { AuthStore } from './core/auth/auth.store';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    RouterLink,
-    MatIconModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  imports: [RouterOutlet],
 })
 export class AppComponent {
-  readonly links = [
-    { name: 'Home', path: '/home', icon: 'home', isActive: true },
-  ];
+  private router = inject(Router);
+  private authStore = inject(AuthStore);
 
-  // toggle active state
-  toggleActive(link: { name: string; path: string; isActive: boolean }) {
-    this.links.forEach((l) => (l.isActive = false));
-    link.isActive = true;
+  constructor() {
+    effect(() => {
+      if (this.authStore.isLoggedIn()) {
+        this.authStore.setCurrentUser();
+        this.router.navigate(['/profile']);
+      }
+    });
   }
 }

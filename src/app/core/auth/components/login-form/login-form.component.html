@@ -1,0 +1,47 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>Enter your credentials to login</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          placeholder="Email"
+          type="email"
+        />
+        <mat-icon matSuffix>email</mat-icon>
+        @if(loginForm.get('email')?.hasError('required')){
+        <mat-error> Email is required </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          placeholder="Password"
+          type="password"
+        />
+        <mat-icon matSuffix>lock</mat-icon>
+        @if(loginForm.get('password')?.hasError('required')){
+        <mat-error> Password is required </mat-error>
+        }
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        @if (authStore.isLoading()) {
+        <mat-spinner diameter="20" color="accent"></mat-spinner>
+        } @else { Login }
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

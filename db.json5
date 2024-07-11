@@ -1,0 +1,103 @@
+{
+  users: [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@gmail.com",
+      password: "password",
+      role: "admin",
+    },
+    {
+      id: 2,
+      name: "Tony Stark",
+      email: "tony@gmail.com",
+      password: "password",
+      role: "teacher",
+    },
+    {
+      id: 3,
+      name: "Bruce Banner",
+      email: "bruce@gmail.com",
+      password: "password",
+      role: "parent",
+    },
+    {
+      id: 4,
+      name: "Steve Rogers",
+      email: "steve@gmail.com",
+      password: "password",
+      role: "student",
+    },
+    {
+      id: 5,
+      name: "Natasha Romanoff",
+      email: "natasha@gmail.com",
+      password: "password",
+      role: "student",
+    },
+    {
+      id: 6,
+      name: "Peter Parker",
+      email: "peter@gmail.com",
+      password: "password",
+      role: "student",
+    },
+  ],
+  sections: [
+    {
+      id: 1,
+      name: "Section A",
+      students: [4, 5, 6],
+      teachers: [2],
+    },
+    {
+      id: 2,
+      name: "Section B",
+      students: [4, 5, 6],
+      teachers: [2],
+    },
+    {
+      id: 3,
+      name: "Section C",
+      students: [4, 5, 6],
+      teachers: [2],
+    },
+  ],
+  posts: [
+    {
+      id: 1,
+      title: "Post 1",
+      content: "This is post 1",
+      section: 1,
+      user: 1,
+    },
+    {
+      id: 2,
+      title: "Post 2",
+      content: "This is post 2",
+      section: 2,
+      user: 2,
+    },
+    {
+      id: 3,
+      title: "Post 3",
+      content: "This is post 3",
+      section: 3,
+      user: 2,
+    },
+  ],
+  comments: [
+    {
+      id: 1,
+      content: "This is comment 1",
+      user: 4,
+      post: 1,
+    },
+    {
+      id: 2,
+      content: "This is comment 2",
+      user: 5,
+      post: 2,
+    },
+  ],
+}

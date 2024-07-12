@@ -1,16 +1,18 @@
-import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthStore } from './auth.store';
+import { inject } from '@angular/core';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  console.log('Auth Guard');
-
   const authStore = inject(AuthStore);
+  const router = inject(Router);
 
-  if (!authStore.user()) {
-    // router.navigate(['/auth/login']);
-    return false;
+  if (authStore.isLoggedIn()) {
+    console.log('User is logged in');
+    return true;
   }
 
-  return true;
+  router.navigate(['/auth/login']).then(() => {
+    console.log('User is not logged in');
+  });
+  return false;
 };

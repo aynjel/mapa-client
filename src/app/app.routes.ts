@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-// import { authGuard } from './core/auth/auth.guard';
-// import { userResolver } from './core/resolver/user.resolver';
+import { authGuard } from './core/auth/auth.guard';
+import { userResolver } from './core/resolver/user.resolver';
+import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.component';
 
 export const routes: Routes = [
   {
@@ -10,37 +11,37 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import('./core/auth/auth.routes').then((m) => m.authRoutes),
+  },
+  {
+    path: 'user',
     loadComponent: () =>
-      import('./core/layouts/auth-layout/auth-layout.component').then(
-        (m) => m.AuthLayoutComponent
+      import('./core/layouts/user-layout/user-layout.component').then(
+        (m) => m.UserLayoutComponent
       ),
     children: [
       {
-        path: 'login',
+        path: 'profile',
         loadComponent: () =>
-          import('./core/auth/pages/login/login.component').then(
-            (m) => m.LoginComponent
+          import('./features/profile/profile.component').then(
+            (m) => m.ProfileComponent
           ),
-        title: 'Login',
+        title: 'Profile',
+        resolve: {
+          user: userResolver,
+        },
       },
       {
-        path: 'register',
+        path: 'section',
         loadComponent: () =>
-          import('./core/auth/pages/register/register.component').then(
-            (m) => m.RegisterComponent
+          import('./features/section/section-list/section-list.component').then(
+            (m) => m.SectionListComponent
           ),
-        title: 'Register',
+        title: 'Section',
       },
     ],
-    // canActivate: [authGuard],
-  },
-  {
-    path: 'profile',
-    loadComponent: () =>
-      import('./features/profile/profile.component').then(
-        (m) => m.ProfileComponent
-      ),
-    title: 'Profile',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
   },
 ];

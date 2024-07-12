@@ -1,13 +1,12 @@
-FROM node:alpine
-
+# Stage 1 - Build distribution assets
+FROM node:18.20.4-alpine as node
 WORKDIR /usr/src/app
-
-COPY . /usr/src/app
-
-RUN npm install -g @angular/cli
-
+COPY package*.json ./
+RUN npm i npm@latest -g
 RUN npm install
+COPY . .
+RUN npm run build
 
-EXPOSE 4200
-
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Stage 2 - Start nginx serve and serve distribution assets
+FROM nginx:1.26-alpine as nginx
+COPY --from=node /usr/src/app/dist /usr/share/nginx/html

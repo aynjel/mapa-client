@@ -52,9 +52,6 @@ export class RegisterFormComponent {
   constructor() {
     effect(() => {
       if (this.authStore.isSubmitted()) {
-        this.snackbar.open(this.authStore.message(), 'Close', {
-          duration: 2000,
-        });
         this.router.navigate(['/auth/login']).then(() => {
           this.registerForm.reset();
           this.authStore.reset();

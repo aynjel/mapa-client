@@ -2,18 +2,21 @@ import { ResolveFn } from '@angular/router';
 import { UserTypes } from '../../shared/types/User.types';
 import { inject } from '@angular/core';
 import { AuthStore } from '../auth/auth.store';
+// import { CookieService } from 'ngx-cookie-service';
 
 export const userResolver: ResolveFn<UserTypes | null> = (route, state) => {
   const authStore = inject(AuthStore);
-  const token = window.localStorage.getItem('token');
+  // const cookieService = inject(CookieService);
 
-  if (authStore.isLoggedIn() && token) {
-    console.log('User is already logged in');
+  // const token = cookieService.get('token');
 
-    authStore.setCurrentUser();
+  // if (authStore.isLoggedIn() && token) {
+  //   console.log('User is already logged in');
 
-    return authStore.user();
-  }
+  //   authStore.setCurrentUser();
 
-  return null;
+  //   return authStore.user();
+  // }
+
+  return authStore.user();
 };

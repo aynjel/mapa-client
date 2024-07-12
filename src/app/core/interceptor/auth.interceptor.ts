@@ -1,8 +1,12 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { catchError, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authToken = window.localStorage.getItem('token');
+  const cookieService = inject(CookieService);
+
+  const authToken = cookieService.get('token');
 
   const authReq = req.clone({
     setHeaders: {

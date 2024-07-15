@@ -62,7 +62,8 @@ export const AuthStore = signalStore(
         });
       },
       logout: () => {
-        cookieService.delete('token', '/');
+        // cookieService.delete('token', '/');
+        localStorage.removeItem('token');
         patchState(store, {
           isLoading: false,
           isSubmitted: false,
@@ -109,7 +110,8 @@ export const AuthStore = signalStore(
 
         authService.login(payload).subscribe({
           next: (response: LoginResponseTypes) => {
-            cookieService.set('token', response.token, 1, '/', '', true, 'Lax');
+            // cookieService.set('token', response.token, 1, '/', '', true, 'Lax');
+            localStorage.setItem('token', response.token);
             patchState(store, {
               isLoading: false,
               isSubmitted: true,

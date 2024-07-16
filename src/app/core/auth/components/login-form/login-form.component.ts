@@ -14,7 +14,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -36,7 +35,6 @@ import { Router } from '@angular/router';
 })
 export class LoginFormComponent {
   public authStore = inject(AuthStore);
-  private router: Router = inject(Router);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private snackbar: MatSnackBar = inject(MatSnackBar);
 
@@ -49,9 +47,7 @@ export class LoginFormComponent {
     effect(() => {
       if (this.authStore.isLoggedIn()) {
         this.authStore.setCurrentUser();
-        this.router.navigate(['/user/section']).then(() => {
-          this.loginForm.reset();
-        });
+        this.loginForm.reset();
       }
     });
   }

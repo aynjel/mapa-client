@@ -52,10 +52,12 @@ export class RegisterFormComponent {
   constructor() {
     effect(() => {
       if (this.authStore.isSubmitted()) {
-        this.router.navigate(['/auth/login']).then(() => {
-          this.registerForm.reset();
-          this.authStore.reset();
-        });
+        if (this.authStore.user()) {
+          this.router.navigate(['/auth/login']).then(() => {
+            this.registerForm.reset();
+          });
+        }
+        this.authStore.reset();
       }
     });
   }

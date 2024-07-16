@@ -1,9 +1,8 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { AuthStore } from '../../auth/auth.store';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
@@ -12,9 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './auth-layout.component.scss',
 })
 export class AuthLayoutComponent {
-  private router = inject(Router);
   private authStore = inject(AuthStore);
-  private cookieService = inject(CookieService);
   private snackbar = inject(MatSnackBar);
 
   constructor() {
@@ -25,12 +22,5 @@ export class AuthLayoutComponent {
         });
       }
     });
-    
-    if (this.cookieService.check('token')) {
-      this.authStore.setCurrentUser();
-      this.router.navigate(['/user/section']);
-    } else {
-      this.authStore.reset();
-    }
   }
 }

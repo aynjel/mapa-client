@@ -5,11 +5,6 @@ import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.comp
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/auth/login',
-    pathMatch: 'full',
-  },
-  {
     path: 'auth',
     component: AuthLayoutComponent,
     loadChildren: () =>
@@ -42,6 +37,18 @@ export const routes: Routes = [
         title: 'Section',
       },
     ],
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
+  },
+  {
+    path: 'counter',
+    loadComponent: () =>
+      import('./features/counter/counter.component').then(
+        (m) => m.CounterComponent
+      ),
+  },
+  {
+    path: '',
+    redirectTo: '/auth/login',
+    pathMatch: 'full',
   },
 ];

@@ -6,8 +6,8 @@ import { catchError, throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const cookieService = inject(CookieService);
 
-  // const authToken = cookieService.get('token');
-  const authToken = localStorage.getItem('token');
+  const authToken = cookieService.get('token');
+  // const authToken = localStorage.getItem('token');
 
   const authReq = req.clone({
     setHeaders: {

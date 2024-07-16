@@ -6,7 +6,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { UserTypes } from '../../shared/types/User.types';
-import { computed, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { LoginPayloadTypes } from './types/LoginPayload.types';
 import { RegisterPayloadTypes } from './types/RegisterPayload.types';
@@ -43,27 +43,29 @@ export const AuthStore = signalStore(
     ) => ({
       setCurrentUser: () => {
         authService.getCurrentUser().subscribe({
-          next: (user: UserTypes) => {
+          next: (response: UserTypes) => {
             patchState(store, {
+              isLoading: false,
+              isSubmitted: true,
               isLoggedIn: true,
-              user: user,
+              user: response,
+              message: '',
             });
           },
           error: (error: HttpErrorResponse) => {
             patchState(store, {
+              isLoading: false,
+              isSubmitted: true,
               isLoggedIn: false,
               user: null,
-              message:
-                error.message ||
-                'User is not authorized' ||
-                error.error.message,
+              message: '',
             });
           },
         });
       },
       logout: () => {
-        // cookieService.delete('token', '/');
-        localStorage.removeItem('token');
+        cookieService.delete('token', '/');
+        // localStorage.removeItem('token');
         patchState(store, {
           isLoading: false,
           isSubmitted: false,
@@ -89,6 +91,7 @@ export const AuthStore = signalStore(
             patchState(store, {
               isLoading: false,
               isSubmitted: true,
+              user: response.user,
               message: response.message,
             });
           },
@@ -110,8 +113,8 @@ export const AuthStore = signalStore(
 
         authService.login(payload).subscribe({
           next: (response: LoginResponseTypes) => {
-            // cookieService.set('token', response.token, 1, '/', '', true, 'Lax');
-            localStorage.setItem('token', response.token);
+            cookieService.set('token', response.token, 1, '/', '', true, 'Lax');
+            // localStorage.setItem('token', response.token);
             patchState(store, {
               isLoading: false,
               isSubmitted: true,

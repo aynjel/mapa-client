@@ -12,6 +12,8 @@ import {
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authInterceptor } from './core/interceptor/auth.interceptor';
+import { sectionReducer } from './features/section/section.reducer';
+import { counterReducer } from './features/counter/store/counter.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideStore(),
+    provideStore({
+      counter: counterReducer,
+      section: sectionReducer,
+    }),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 import { LoginPayloadTypes } from './types/LoginPayload.types';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { UserTypes } from '../../shared/types/User.types';
+import { UserTypes } from '@shared/types/User.types';
 import { RegisterPayloadTypes } from './types/RegisterPayload.types';
 import { RegisterResponseTypes } from './types/RegisterResponse.types';
 import { LoginResponseTypes } from './types/LoginResponse.types';

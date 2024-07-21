@@ -5,7 +5,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { UserTypes } from '../../shared/types/User.types';
+import { UserTypes } from '@shared/types/User.types';
 import { computed, inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { LoginPayloadTypes } from './types/LoginPayload.types';

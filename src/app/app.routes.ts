@@ -6,8 +6,12 @@ import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.comp
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/auth/login',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard',
   },
   {
     path: 'auth',
@@ -16,32 +20,10 @@ export const routes: Routes = [
       import('./core/auth/auth.routes').then((m) => m.authRoutes),
   },
   {
-    path: 'user',
-    loadComponent: () =>
-      import('./core/layouts/user-layout/user-layout.component').then(
-        (m) => m.UserLayoutComponent
-      ),
-    children: [
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./features/profile/profile.component').then(
-            (m) => m.ProfileComponent
-          ),
-        title: 'Profile',
-        resolve: {
-          user: userResolver,
-        },
-      },
-      {
-        path: 'section',
-        loadComponent: () =>
-          import('./features/section/section-list/section-list.component').then(
-            (m) => m.SectionListComponent
-          ),
-        title: 'Section',
-      },
-    ],
-    canActivate: [authGuard],
+    path: 'dashboard',
+    // canActivate: [authGuard],
+    // resolve: [userResolver],
+    loadChildren: () =>
+      import('./features/section/section.routes').then((m) => m.sectionRoutes),
   },
 ];

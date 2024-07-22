@@ -12,6 +12,8 @@ import {
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authInterceptor } from './core/interceptor/auth.interceptor';
+import { provideEffects } from '@ngrx/effects';
+import { TodoEffects } from './features/todo/store/todo.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideStore(),
+    provideEffects(TodoEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

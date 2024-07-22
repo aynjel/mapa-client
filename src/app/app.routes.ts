@@ -6,8 +6,19 @@ import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.comp
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/auth/login',
+    redirectTo: 'section',
     pathMatch: 'full',
+  },
+  {
+    path: 'todo',
+    loadChildren: () =>
+      import('./features/todo/todo.routes').then((m) => m.todoRoutes),
+    providers: [],
+  },
+  {
+    path: 'section',
+    loadChildren: () =>
+      import('./features/section/section.routes').then((m) => m.sectionRoutes),
   },
   {
     path: 'auth',

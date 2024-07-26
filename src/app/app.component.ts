@@ -1,29 +1,10 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { AuthStore } from './core/auth/auth.store';
-import { CookieService } from 'ngx-cookie-service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
   imports: [RouterOutlet],
+  template: `<router-outlet />`,
 })
-export class AppComponent implements OnInit {
-  private authStore = inject(AuthStore);
-  private router = inject(Router);
-  private cookieService = inject(CookieService);
-
-  constructor() {
-    effect(() => {
-      console.log('AppComponent', this.authStore.user());
-    });
-  }
-
-  ngOnInit() {
-    if (this.cookieService.check('token') && !this.authStore.user()) {
-      this.authStore.setCurrentUser();
-    }
-  }
-}
+export class AppComponent {}

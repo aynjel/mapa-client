@@ -1,7 +1,5 @@
 import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
@@ -11,9 +9,8 @@ import {
 } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { authInterceptor } from './core/interceptor/auth.interceptor';
-import { sectionReducer } from './features/section/section.reducer';
-import { counterReducer } from './features/counter/store/counter.reducer';
+import { authInterceptor } from '@core/interceptors/auth.interceptor';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,10 +18,8 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideStore({
-      counter: counterReducer,
-      section: sectionReducer,
-    }),
+    provideHttpClient(withFetch()),
+    provideStore(),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

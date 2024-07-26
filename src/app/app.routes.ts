@@ -1,54 +1,63 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guard';
-import { userResolver } from './core/resolver/user.resolver';
-import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.component';
+import { authGuard } from '@core/guards/auth.guard';
+import { AuthLayoutComponent } from '@core/layouts/auth-layout/auth-layout.component';
+import { DefaultLayoutComponent } from '@core/layouts/default-layout/default-layout.component';
+import { NoSidebarLayoutComponent } from '@core/layouts/no-sidebar-layout/no-sidebar-layout.component';
 
 export const routes: Routes = [
   {
-    path: 'auth',
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     component: AuthLayoutComponent,
     loadChildren: () =>
       import('./core/auth/auth.routes').then((m) => m.authRoutes),
   },
   {
-    path: 'user',
-    loadComponent: () =>
-      import('./core/layouts/user-layout/user-layout.component').then(
-        (m) => m.UserLayoutComponent
-      ),
+    path: '',
+    component: NoSidebarLayoutComponent,
     children: [
       {
         path: 'profile',
-        loadComponent: () =>
-          import('./features/profile/profile.component').then(
-            (m) => m.ProfileComponent
+        loadChildren: () =>
+          import('./features/profile/profile.routes').then(
+            (m) => m.profileRoutes
           ),
         title: 'Profile',
-        resolve: {
-          user: userResolver,
-        },
       },
       {
-        path: 'section',
-        loadComponent: () =>
-          import('./features/section/section-list/section-list.component').then(
-            (m) => m.SectionListComponent
+        path: 'settings',
+        loadChildren: () =>
+          import('./features/settings/settings.routes').then(
+            (m) => m.settingsRoutes
           ),
-        title: 'Section',
+        title: 'Settings',
       },
     ],
-    // canActivate: [authGuard],
-  },
-  {
-    path: 'counter',
-    loadComponent: () =>
-      import('./features/counter/counter.component').then(
-        (m) => m.CounterComponent
-      ),
+    canActivate: [authGuard],
   },
   {
     path: '',
-    redirectTo: '/auth/login',
-    pathMatch: 'full',
+    component: DefaultLayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./features/sections/sections.routes').then(
+            (m) => m.sectionsRoutes
+          ),
+        title: 'Dashboard',
+      },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./core/users/users.routes').then((m) => m.usersRoutes),
+        title: 'Users',
+      },
+    ],
+    canActivate: [authGuard],
   },
 ];

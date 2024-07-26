@@ -1,29 +1,22 @@
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
-import { UserTypes } from '../../shared/types/User.types';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { inject } from '@angular/core';
-import { AuthService } from './auth.service';
-import { LoginPayloadTypes } from './types/LoginPayload.types';
-import { RegisterPayloadTypes } from './types/RegisterPayload.types';
-import { HttpErrorResponse } from '@angular/common/http';
-import { RegisterResponseTypes } from './types/RegisterResponse.types';
-import { LoginResponseTypes } from './types/LoginResponse.types';
+import { AuthService } from '@core/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { LoginPayload, RegisterPayload } from '@core/types/auth.types';
+import { User } from '@core/types/user.types';
 
-type UserStateTypes = {
+type UserStateType = Omit<User, 'id' | 'password' | 'token'>;
+
+type UserState = {
   isLoading: boolean;
   isSubmitted: boolean;
   isLoggedIn: boolean;
-  user: UserTypes | null;
+  user: UserStateType | null;
   message: string;
 };
 
-const initialState: UserStateTypes = {
+const initialState: UserState = {
   isLoading: false,
   isSubmitted: false,
   isLoggedIn: false,
@@ -34,7 +27,6 @@ const initialState: UserStateTypes = {
 export const AuthStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withComputed((state) => ({})),
   withMethods(
     (
       store,
@@ -42,25 +34,16 @@ export const AuthStore = signalStore(
       cookieService = inject(CookieService)
     ) => ({
       setCurrentUser: () => {
-        authService.getCurrentUser().subscribe({
-          next: (response: UserTypes) => {
-            patchState(store, {
-              isLoading: false,
-              isSubmitted: true,
-              isLoggedIn: true,
-              user: response,
-              message: '',
-            });
-          },
-          error: (error: HttpErrorResponse) => {
-            patchState(store, {
-              isLoading: false,
-              isSubmitted: true,
-              isLoggedIn: false,
-              user: null,
-              message: '',
-            });
-          },
+        authService.getCurrentUser().subscribe((response) => {
+          console.log(response);
+
+          patchState(store, {
+            isLoading: false,
+            isSubmitted: true,
+            isLoggedIn: true,
+            user: response.data,
+            message: '',
+          });
         });
       },
       logout: () => {
@@ -83,16 +66,16 @@ export const AuthStore = signalStore(
           message: '',
         });
       },
-      register: (payload: RegisterPayloadTypes) => {
+      register: (payload: RegisterPayload) => {
         patchState(store, { isLoading: true, isSubmitted: false, message: '' });
 
         authService.register(payload).subscribe({
-          next: (response: RegisterResponseTypes) => {
+          next: (response) => {
             patchState(store, {
               isLoading: false,
               isSubmitted: true,
-              user: response.user,
-              message: response.message,
+              user: response.data,
+              message: response.message || 'User is registered',
             });
           },
           error: (error: HttpErrorResponse) => {
@@ -100,26 +83,32 @@ export const AuthStore = signalStore(
               isLoading: false,
               isSubmitted: true,
               user: null,
-              message:
-                error.message ||
-                'User is not authorized' ||
-                error.error.message,
+              message: error.error.message || error.message,
             });
           },
         });
       },
-      login: (payload: LoginPayloadTypes) => {
+      login: (payload: LoginPayload) => {
         patchState(store, { isLoading: true, isSubmitted: false, message: '' });
 
         authService.login(payload).subscribe({
-          next: (response: LoginResponseTypes) => {
-            cookieService.set('token', response.token, 1, '/', '', true, 'Lax');
+          next: (response) => {
+            cookieService.set(
+              'token',
+              response.data.token,
+              1,
+              '/',
+              '',
+              true,
+              'Lax'
+            );
             // localStorage.setItem('token', response.token);
             patchState(store, {
               isLoading: false,
               isSubmitted: true,
               isLoggedIn: true,
-              message: response.message,
+              user: null,
+              message: response.message || 'User is logged in',
             });
           },
           error: (error: HttpErrorResponse) => {
@@ -127,10 +116,8 @@ export const AuthStore = signalStore(
               isLoading: false,
               isSubmitted: true,
               isLoggedIn: false,
-              message:
-                error.message ||
-                'User is not authorized' ||
-                error.error.message,
+              user: null,
+              message: error.error.message || error.message,
             });
           },
         });

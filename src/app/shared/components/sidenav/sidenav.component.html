@@ -1,0 +1,21 @@
+<div class="sidenav-header" [routerLink]="['/profile']">
+  <img [src]="authStore.user()?.avatarURL" [width]="profilePicSize()" [height]="profilePicSize()"
+    [alt]="authStore.user()?.name">
+  <div class="header-text" [class.hide-header-text]="collapsed()">
+    <h3>{{authStore.user()?.name}}</h3>
+    <p>{{authStore.user()?.role}}</p>
+  </div>
+</div>
+
+<mat-nav-list>
+  @for(menuItem of menuItems(); track $index){
+  <a mat-list-item class="menu-items" [routerLink]="menuItem.route" routerLinkActive="selected-menu-item"
+    #rla="routerLinkActive" [activated]="rla.isActive">
+    <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>{{ menuItem.icon
+      }}</mat-icon>
+    @if(!collapsed()){
+    <span matListItemTitle>{{ menuItem.label }}</span>
+    }
+  </a>
+  }
+</mat-nav-list>

@@ -1,21 +1,31 @@
-.logo {
+.spacer {
+  flex: 1;
+}
+
+.active {
+  background-color: #333333;
+}
+
+/* position bottom nav at the bottom of the screen */
+.mat-toolbar-nav {
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  padding: 0;
+}
+
+.mat-toolbar-nav button {
+  width: 100%;
+  height: 64px;
+  border-radius: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+main {
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin: 50px 0;
-
-  img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-
-  span {
-    display: block;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-  }
 }

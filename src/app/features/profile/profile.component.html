@@ -1,19 +1,13 @@
-<mat-card>
-  <mat-card-content>
-    <div class="profile">
-      <img [src]="authStore.user()?.avatarURL" [alt]="authStore.user()?.name">
+<section id="profile">
+  <mat-card>
+    <mat-card-content>
+      <div class="profile">
+        <img [src]="authStore.user()?.avatarURL" [alt]="authStore.user()?.name">
 
-      <h3>{{authStore.user()?.name}}</h3>
-      <p>{{authStore.user()?.email}}</p>
-
-
-
-    </div>
-
-    <div class="information">
-      <h3>Information</h3>
-      <p>Some information about me</p>
-
-    </div>
-  </mat-card-content>
-</mat-card>
+        <h3>{{authStore.user()?.name}}</h3>
+        <p>{{authStore.user()?.email}}</p>
+        <mat-chip>{{authStore.user()?.role?.toUpperCase()}}</mat-chip>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

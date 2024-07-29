@@ -3,13 +3,11 @@ import type {
   HttpInterceptorFn,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const cookieService = inject(CookieService);
-  const router = inject(Router);
 
   const updatedRequest = request.clone({
     setHeaders: {
@@ -20,9 +18,9 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
   return next(updatedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        router.navigate(['/login']);
+        console.log('Unauthorized');
       } else if (error.status === 403) {
-        router.navigate(['/forbidden']);
+        console.log('Forbidden');
       }
 
       return throwError(() => error);

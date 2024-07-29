@@ -34,17 +34,28 @@ export const AuthStore = signalStore(
       cookieService = inject(CookieService)
     ) => ({
       setCurrentUser: () => {
-        authService.getCurrentUser().subscribe((response) => {
-          console.log(response);
-
-          patchState(store, {
-            isLoading: false,
-            isSubmitted: true,
-            isLoggedIn: true,
-            user: response.data,
-            message: '',
+        if (cookieService.get('token')) {
+          authService.getCurrentUser().subscribe({
+            next: (response) => {
+              patchState(store, {
+                isLoading: false,
+                isSubmitted: true,
+                isLoggedIn: true,
+                user: response.data,
+                message: '',
+              });
+            },
+            error: (error: HttpErrorResponse) => {
+              patchState(store, {
+                isLoading: false,
+                isSubmitted: true,
+                isLoggedIn: false,
+                user: null,
+                message: error.error.message || error.message,
+              });
+            },
           });
-        });
+        }
       },
       logout: () => {
         cookieService.delete('token', '/');

@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
 import { Title } from '@angular/platform-browser';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-default-layout',
@@ -17,6 +18,7 @@ import { Title } from '@angular/platform-browser';
     MatToolbarModule,
     MatSidenavModule,
     SidenavComponent,
+    MatTooltipModule,
   ],
   templateUrl: './default-layout.component.html',
   styleUrl: './default-layout.component.scss',

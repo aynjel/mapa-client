@@ -17,7 +17,7 @@ export class AuthLayoutComponent {
 
   constructor() {
     effect(() => {
-      if (this.authStore.isLoggedIn()) {
+      if (this.authStore.isSubmitted() && this.authStore.isLoggedIn()) {
         this.router.navigate(['/dashboard']);
       }
     });

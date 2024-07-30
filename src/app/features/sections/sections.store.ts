@@ -1,4 +1,4 @@
-import { signalStore, withMethods } from '@ngrx/signals';
+import { signalStore, withMethods, withState } from '@ngrx/signals';
 import { Section } from './types/section.types';
 import { inject } from '@angular/core';
 import { SectionsService } from './services/sections.service';
@@ -21,7 +21,7 @@ const initialState: SectionState = {
 
 export const SectionStore = signalStore(
   { providedIn: 'root' },
-  initialState,
+  withState(initialState),
   withMethods((store, sectionService = inject(SectionsService)) => ({
     addSection: (section: Section) => {},
   }))

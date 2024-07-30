@@ -6,7 +6,7 @@ import { DefaultLayoutComponent } from '@core/layouts/default-layout/default-lay
 import { NoSidebarLayoutComponent } from '@core/layouts/no-sidebar-layout/no-sidebar-layout.component';
 
 export const routes: Routes = [
-  // { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: '',
     component: AuthLayoutComponent,

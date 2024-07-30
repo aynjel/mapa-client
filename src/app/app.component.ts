@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { AuthStore } from '@core/auth/auth.store';
 
 @Component({
@@ -12,7 +12,6 @@ import { AuthStore } from '@core/auth/auth.store';
 export class AppComponent {
   private readonly authStore = inject(AuthStore);
   private readonly snackBar = inject(MatSnackBar);
-  private readonly router = inject(Router);
 
   constructor() {
     this.authStore.setCurrentUser();

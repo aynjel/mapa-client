@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Title } from '@angular/platform-browser';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { AuthStore } from '@core/auth/auth.store';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -23,7 +23,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class NoSidebarLayoutComponent {
   private readonly authStore = inject(AuthStore);
   protected readonly titleService = inject(Title);
-  private readonly router = inject(Router);
 
   back() {
     window.history.back();
@@ -31,8 +30,5 @@ export class NoSidebarLayoutComponent {
 
   logout() {
     this.authStore.logout();
-    if (!this.authStore.isLoggedIn()) {
-      this.router.navigate(['/login']);
-    }
   }
 }

@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthStore } from '../auth.store';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,12 +24,13 @@ import { Router } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  private readonly store = inject(AuthStore);
+  protected readonly authStore = inject(AuthStore);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
 
@@ -38,8 +40,21 @@ export class RegisterComponent {
     this.initializeForm();
 
     effect(() => {
-      if (this.store.isSubmitted() && this.store.user()) {
-        this.router.navigate(['/login']);
+      if (this.authStore.isLoading()) {
+        this.registerForm.disable();
+      } else {
+        this.registerForm.enable();
+      }
+
+      if (this.authStore.user()) {
+        this.router.navigate(['/login']).then(() => {
+          this.registerForm.reset();
+          this.authStore.resetState();
+        });
+      }
+
+      if (this.authStore.isLoggedIn()) {
+        this.router.navigate(['/dashboard']);
       }
     });
   }
@@ -84,6 +99,6 @@ export class RegisterComponent {
 
   onSubmit() {
     const { name, email, password } = this.registerForm.value;
-    this.store.register({ name, email, password });
+    this.authStore.register({ name, email, password });
   }
 }

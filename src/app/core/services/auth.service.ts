@@ -5,6 +5,7 @@ import type {
   CurrentUserResponse,
   LoginPayload,
   LoginResponse,
+  LogoutResponse,
   RegisterPayload,
   RegisterResponse,
 } from '@core/types/auth.types';
@@ -20,21 +21,25 @@ export class AuthService {
 
   login(loginPayload: LoginPayload): Observable<LoginResponse> {
     return this.httpClient.post<LoginResponse>(
-      `${this.API_URL}/users/login`,
+      `${this.API_URL}/auth/login`,
       loginPayload
     );
   }
 
   register(registerPayload: RegisterPayload): Observable<RegisterResponse> {
     return this.httpClient.post<RegisterResponse>(
-      `${this.API_URL}/users/signup`,
+      `${this.API_URL}/users/create`,
       registerPayload
     );
   }
 
   getCurrentUser(): Observable<CurrentUserResponse> {
     return this.httpClient.get<CurrentUserResponse>(
-      `${this.API_URL}/users/current`
+      `${this.API_URL}/auth/current`
     );
+  }
+
+  logout(): Observable<LogoutResponse> {
+    return this.httpClient.get<LogoutResponse>(`${this.API_URL}/auth/logout`);
   }
 }

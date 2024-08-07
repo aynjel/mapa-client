@@ -6,9 +6,13 @@
     {{ titleService.getTitle() }}
   </span>
   <span class="spacer"></span>
+  @if (!authStore.isLoading()) {
   <button mat-icon-button color="primary" aria-label="Logout Button" (click)="logout()" matTooltip="Logout">
     <mat-icon>logout</mat-icon>
   </button>
+  } @else {
+  <mat-spinner color="accent" mode="indeterminate" diameter="20"></mat-spinner>
+  }
 </mat-toolbar>
 
 <main>

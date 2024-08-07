@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginPayload, RegisterPayload } from '@core/types/auth.types';
 import { User } from '@core/types/user.types';
+import { switchMap } from 'rxjs';
 
 type UserStateType = Omit<User, 'id' | 'password' | 'token'>;
 
@@ -33,52 +34,44 @@ export const AuthStore = signalStore(
       authService = inject(AuthService),
       cookieService = inject(CookieService)
     ) => ({
-      setCurrentUser: () => {
-        if (cookieService.get('token')) {
-          authService.getCurrentUser().subscribe({
-            next: (response) => {
-              patchState(store, {
-                isLoading: false,
-                isSubmitted: true,
-                isLoggedIn: true,
-                user: response.data,
-                message: '',
-              });
-            },
-            error: (error: HttpErrorResponse) => {
-              patchState(store, {
-                isLoading: false,
-                isSubmitted: true,
-                isLoggedIn: false,
-                user: null,
-                message: error.error.message || error.message,
-              });
-            },
-          });
-        }
-      },
       logout: () => {
-        cookieService.delete('token', '/');
-        // localStorage.removeItem('token');
         patchState(store, {
-          isLoading: false,
-          isSubmitted: false,
-          isLoggedIn: false,
-          user: null,
-          message: 'User is logged out',
+          isLoading: true,
         });
-      },
-      reset: () => {
-        patchState(store, {
-          isLoading: false,
-          isSubmitted: false,
-          isLoggedIn: false,
-          user: null,
-          message: '',
+
+        authService.logout().subscribe({
+          next: (response) => {
+            patchState(store, {
+              isLoading: false,
+              isSubmitted: false,
+              isLoggedIn: false,
+              user: null,
+              message: response.message || 'User logged out.',
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log('error', error);
+
+            patchState(store, {
+              isLoading: false,
+              isSubmitted: true,
+              isLoggedIn: false,
+              user: null,
+              message: error.error.message || error.message,
+            });
+          },
+          complete: () => {
+            cookieService.delete('token', '/');
+          },
         });
       },
       register: (payload: RegisterPayload) => {
-        patchState(store, { isLoading: true, isSubmitted: false, message: '' });
+        patchState(store, {
+          isLoading: true,
+          isSubmitted: false,
+          user: null,
+          message: '',
+        });
 
         authService.register(payload).subscribe({
           next: (response) => {
@@ -102,36 +95,61 @@ export const AuthStore = signalStore(
       login: (payload: LoginPayload) => {
         patchState(store, { isLoading: true, isSubmitted: false, message: '' });
 
-        authService.login(payload).subscribe({
-          next: (response) => {
-            cookieService.set(
-              'token',
-              response.data.token,
-              1,
-              '/',
-              '',
-              true,
-              'Lax'
-            );
-            // localStorage.setItem('token', response.token);
-            patchState(store, {
-              isLoading: false,
-              isSubmitted: true,
-              isLoggedIn: true,
-              user: null,
-              message: response.message || 'User is logged in',
-            });
-          },
-          error: (error: HttpErrorResponse) => {
-            patchState(store, {
-              isLoading: false,
-              isSubmitted: true,
-              isLoggedIn: false,
-              user: null,
-              message: error.error.message || error.message,
-            });
-          },
-        });
+        authService
+          .login(payload)
+          .pipe(
+            switchMap((res) => {
+              cookieService.set('token', res.data.token, { path: '/' });
+              return authService.getCurrentUser();
+            })
+          )
+          .subscribe({
+            next: (response) => {
+              patchState(store, {
+                isLoading: false,
+                isSubmitted: true,
+                isLoggedIn: true,
+                user: response.data,
+                message: response.message || 'User is logged in',
+              });
+            },
+            error: (error: HttpErrorResponse) => {
+              patchState(store, {
+                isLoading: false,
+                isSubmitted: true,
+                isLoggedIn: false,
+                user: null,
+                message: error.error.message || error.message,
+              });
+            },
+          });
+      },
+      setCurrentUser: () => {
+        if (cookieService.check('token')) {
+          authService.getCurrentUser().subscribe({
+            next: (response) => {
+              patchState(store, {
+                isLoading: false,
+                isSubmitted: true,
+                isLoggedIn: true,
+                user: response.data,
+                message: '',
+              });
+            },
+            error: (error: HttpErrorResponse) => {
+              patchState(store, {
+                isLoading: false,
+                isSubmitted: true,
+                isLoggedIn: false,
+                user: null,
+                message: error.error.message || error.message,
+              });
+            },
+          });
+        }
+      },
+      resetState: () => {
+        patchState(store, initialState);
       },
     })
   )

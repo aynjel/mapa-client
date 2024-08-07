@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { AuthStore } from '@core/auth/auth.store';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-no-sidebar-layout',
@@ -16,12 +17,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './no-sidebar-layout.component.html',
   styleUrl: './no-sidebar-layout.component.scss',
 })
 export class NoSidebarLayoutComponent {
-  private readonly authStore = inject(AuthStore);
+  protected readonly authStore = inject(AuthStore);
   protected readonly titleService = inject(Title);
 
   back() {
@@ -29,6 +31,10 @@ export class NoSidebarLayoutComponent {
   }
 
   logout() {
-    this.authStore.logout();
+    if (this.authStore.isLoggedIn()) {
+      this.authStore.logout();
+
+      // window.location.reload();
+    }
   }
 }

@@ -1,8 +1,7 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
-import { AuthStore } from '@core/auth/auth.store';
+import {RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-auth-layout',
@@ -12,14 +11,5 @@ import { AuthStore } from '@core/auth/auth.store';
   styleUrl: './auth-layout.component.scss',
 })
 export class AuthLayoutComponent {
-  private readonly authStore = inject(AuthStore);
-  private readonly router = inject(Router);
-
-  constructor() {
-    effect(() => {
-      if (this.authStore.isSubmitted() && this.authStore.isLoggedIn()) {
-        this.router.navigate(['/dashboard']);
-      }
-    });
-  }
+  constructor() {}
 }

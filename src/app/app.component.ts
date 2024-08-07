@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AuthStore } from '@core/auth/auth.store';
 
 @Component({
@@ -12,9 +12,13 @@ import { AuthStore } from '@core/auth/auth.store';
 export class AppComponent {
   private readonly authStore = inject(AuthStore);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
+
+  title = 'Mapa';
 
   constructor() {
-    this.authStore.setCurrentUser();
+    this.initializeApp();
+
     effect(() => {
       if (this.authStore.message()) {
         this.snackBar.open(this.authStore.message(), 'Close', {
@@ -22,9 +26,15 @@ export class AppComponent {
         });
       }
 
-      if (this.authStore.isLoggedIn()) {
-        this.authStore.setCurrentUser();
+      if (this.authStore.user()) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['/login']);
       }
     });
+  }
+
+  private initializeApp() {
+    this.authStore.setCurrentUser();
   }
 }

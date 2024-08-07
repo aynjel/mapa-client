@@ -12,8 +12,6 @@ export type LoginPayload = Pick<User, 'email' | 'password'>;
 
 export type LoginResponse = ApiResponse<Pick<User, 'token'>>;
 
-export type LogoutResponse = ApiResponse<
-  Pick<User, 'id' | 'token' | 'avatarURL'>
->;
+export type LogoutResponse = ApiResponse<Pick<User, 'token'>>;
 
 export type CurrentUserResponse = ApiResponse<Omit<User, 'id' | 'password'>>;

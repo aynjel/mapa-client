@@ -15,22 +15,28 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
-    path: 'profile',
+    path: '',
     component: NoSidebarLayoutComponent,
-    loadChildren: () =>
-      import('./features/profile/profile.routes').then((m) => m.profileRoutes),
-    canActivate: [authGuard],
-    title: 'Profile',
-  },
-  {
-    path: 'settings',
-    component: NoSidebarLayoutComponent,
-    loadChildren: () =>
-      import('./features/settings/settings.routes').then(
-        (m) => m.settingsRoutes
-      ),
-    canActivate: [authGuard],
-    title: 'Settings',
+    children: [
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./features/profile/profile.routes').then(
+            (m) => m.profileRoutes
+          ),
+        canActivate: [authGuard],
+        title: 'Profile',
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./features/settings/settings.routes').then(
+            (m) => m.settingsRoutes
+          ),
+        canActivate: [authGuard],
+        title: 'Settings',
+      },
+    ],
   },
   {
     path: '',

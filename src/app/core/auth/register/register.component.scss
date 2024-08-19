@@ -20,12 +20,23 @@ mat-form-field {
   width: 100%;
 }
 
+.radio-role {
+  background-color: #4a4a4a;
+  border-radius: 4px;
+  padding: 10px;
+
+  label {
+    color: #fff;
+  }
+}
+
 mat-card-actions {
   padding: 0 15px;
   align-items: flex-start;
   button {
     width: 100%;
     box-shadow: none;
+    margin-top: 14px;
 
     &:disabled {
       background: var(--primary-color-disabled);

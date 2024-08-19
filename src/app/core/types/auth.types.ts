@@ -3,7 +3,7 @@ import { ApiResponse } from '@shared/types/api-response.types';
 
 export type RegisterPayload = Omit<
   User,
-  'id' | 'token' | 'avatarURL' | 'subscription' | 'role'
+  'id' | 'token' | 'avatarURL' | 'subscription'
 >;
 
 export type RegisterResponse = ApiResponse<Omit<User, 'token' | 'password'>>;

@@ -1,5 +1,5 @@
 import { Component, effect, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, TitleCasePipe } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthStore } from '../auth.store';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,12 +20,14 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     NgIf,
+    TitleCasePipe,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -36,6 +39,7 @@ export class RegisterComponent {
 
   registerForm!: FormGroup;
 
+  roles: string[] = ['parent', 'teacher', 'student'];
   constructor() {
     this.initializeForm();
 
@@ -65,6 +69,7 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
+      role: ['', [Validators.required]],
     });
 
     this.registerForm
@@ -98,7 +103,7 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    const { name, email, password } = this.registerForm.value;
-    this.authStore.register({ name, email, password });
+    const { name, email, password, role } = this.registerForm.value;
+    this.authStore.register({ name, email, password, role });
   }
 }

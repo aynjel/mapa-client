@@ -14,6 +14,7 @@ import { AuthStore } from '../auth.store';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-register',
@@ -37,6 +38,8 @@ export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
 
+  private user$ = toObservable(this.authStore.user);
+
   registerForm!: FormGroup;
 
   roles: string[] = ['parent', 'teacher', 'student'];
@@ -49,17 +52,6 @@ export class RegisterComponent {
       } else {
         this.registerForm.enable();
       }
-
-      if (this.authStore.user()) {
-        this.router.navigate(['/login']).then(() => {
-          this.registerForm.reset();
-          this.authStore.resetState();
-        });
-      }
-
-      if (this.authStore.isLoggedIn()) {
-        this.router.navigate(['/dashboard']);
-      }
     });
   }
 
@@ -68,7 +60,7 @@ export class RegisterComponent {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      confirmPassword: ['', Validators.required],
       role: ['', [Validators.required]],
     });
 
@@ -103,7 +95,19 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    const { name, email, password, role } = this.registerForm.value;
-    this.authStore.register({ name, email, password, role });
+    if (this.registerForm.valid) {
+      const { name, email, password, role } = this.registerForm.value;
+      this.authStore.register({ name, email, password, role });
+
+      this.user$.subscribe({
+        next: (user) => {
+          if (user) {
+            this.router.navigate(['/login']).then(() => {
+              this.authStore.resetState();
+            });
+          }
+        },
+      });
+    }
   }
 }

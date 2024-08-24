@@ -11,7 +11,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthStore } from '../auth.store';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +29,6 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   protected readonly authStore = inject(AuthStore);
   private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
 
   loginForm!: FormGroup;
 
@@ -42,12 +40,6 @@ export class LoginComponent {
         this.loginForm.disable();
       } else {
         this.loginForm.enable();
-      }
-
-      if (this.authStore.isLoggedIn()) {
-        this.router.navigate(['/dashboard']).then(() => {
-          this.loginForm.reset();
-        });
       }
     });
   }

@@ -1,12 +1,27 @@
 <header>
-  <mat-form-field class="example-form-field">
-    <mat-label>Clearable input</mat-label>
-    <input matInput type="text" placeholder="Search" (keyup)="setFilter($event)">
-    <button matSuffix mat-icon-button aria-label="Clear">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+  <div class="section-header">
+    <mat-form-field color="accent">
+      <mat-label>Search Section</mat-label>
+      <input matInput type="text" placeholder="Search" (keyup)="setFilter($event)">
+      <button matSuffix mat-icon-button aria-label="Clear">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button class="add-section-btn" mat-raised-button color="primary" (click)="addSectionModal()">Add Section</button>
+  </div>
 </header>
 <section>
-  {{ searchFilter() }}
+  <div class="section-list-container">
+    @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Section {{item}}</mat-card-title>
+        <mat-card-subtitle>Subtitle</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Content</p>
+      </mat-card-content>
+    </mat-card>
+    }
+  </div>
 </section>

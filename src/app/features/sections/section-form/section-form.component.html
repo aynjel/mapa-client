@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Add Section</h2>
+<form [formGroup]="sectionForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill" color="accent">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="title" required>
+      @if (sectionForm.get('title')?.invalid) {
+      <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="fill" color="accent">
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" formControlName="description"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button type="submit" [disabled]="sectionForm.invalid">Submit</button>
+  </mat-dialog-actions>
+</form>

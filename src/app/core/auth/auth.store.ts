@@ -68,9 +68,6 @@ export const AuthStore = signalStore(
       register: (payload: RegisterPayload) => {
         patchState(store, {
           isLoading: true,
-          isSubmitted: false,
-          user: null,
-          message: '',
         });
 
         authService.register(payload).subscribe({
@@ -86,7 +83,6 @@ export const AuthStore = signalStore(
             patchState(store, {
               isLoading: false,
               isSubmitted: true,
-              user: null,
               message: error.error.message || error.message,
             });
           },

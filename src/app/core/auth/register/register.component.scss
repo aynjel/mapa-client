@@ -1,5 +1,5 @@
 .register-card {
-  max-width: 400px;
+  max-width: 540px;
   background: transparent;
   box-shadow: none;
 }
@@ -20,13 +20,28 @@ mat-form-field {
   width: 100%;
 }
 
+.flex-container {
+  display: flex;
+  gap: 10px;
+}
+
 .radio-role {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
   background-color: #4a4a4a;
   border-radius: 4px;
   padding: 10px;
 
   label {
     color: #fff;
+  }
+
+  mat-radio-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
   }
 }
 

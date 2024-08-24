@@ -9,7 +9,7 @@ import type {
   RegisterPayload,
   RegisterResponse,
 } from '@core/types/auth.types';
-import { environment } from '@env/environment.development';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',

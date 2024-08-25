@@ -4,6 +4,7 @@ import { guestGuard } from '@core/guards/guest.guard';
 import { AuthLayoutComponent } from '@core/layouts/auth-layout/auth-layout.component';
 import { DefaultLayoutComponent } from '@core/layouts/default-layout/default-layout.component';
 import { NoSidebarLayoutComponent } from '@core/layouts/no-sidebar-layout/no-sidebar-layout.component';
+import { SectionLayoutComponent } from '@features/sections/section-layout/section-layout.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   {
     path: '',
     component: NoSidebarLayoutComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: 'profile',
@@ -24,7 +26,6 @@ export const routes: Routes = [
           import('./features/profile/profile.routes').then(
             (m) => m.profileRoutes
           ),
-        canActivate: [authGuard],
         title: 'Profile',
       },
       {
@@ -33,10 +34,19 @@ export const routes: Routes = [
           import('./features/settings/settings.routes').then(
             (m) => m.settingsRoutes
           ),
-        canActivate: [authGuard],
         title: 'Settings',
       },
     ],
+  },
+  {
+    path: 'sections',
+    component: SectionLayoutComponent,
+    loadChildren: () =>
+      import('./features/sections/sections.routes').then(
+        (m) => m.sectionsRoutes
+      ),
+    title: 'Sections',
+    canActivate: [authGuard],
   },
   {
     path: '',
@@ -45,9 +55,9 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () =>
-          import('./features/sections/sections.routes').then(
-            (m) => m.sectionsRoutes
+        loadComponent: () =>
+          import('./features/sections/sections.component').then(
+            (m) => m.SectionsComponent
           ),
         title: 'Dashboard',
       },

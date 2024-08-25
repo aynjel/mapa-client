@@ -1,0 +1,12 @@
+<mat-toolbar class="mat-elevation-z3">
+  <button mat-icon-button aria-label="Side Nav" (click)="back()" matTooltip="Back">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>
+    {{titleService.getTitle()}}
+  </span>
+</mat-toolbar>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

@@ -33,9 +33,9 @@ export class SectionsService {
     return this.http.get<SectionListResponse>(`${this.API_URL}/sections`);
   }
 
-  getSection(id: string): Observable<SectionDetailsResponse> {
+  getSection(slug: string): Observable<SectionDetailsResponse> {
     return this.http.get<SectionDetailsResponse>(
-      `${this.API_URL}/sections/${id}`
+      `${this.API_URL}/sections/${slug}`
     );
   }
 

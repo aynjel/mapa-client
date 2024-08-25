@@ -1,18 +1,13 @@
 import { Routes } from '@angular/router';
-import { SectionsComponent } from './sections.component';
-import { SectionDetailsComponent } from './section-details/section-details.component';
 import { sectionDetailsResolver } from './resolver/section-details.resolver';
+import { SectionDetailsComponent } from './section-details/section-details.component';
 
 export const sectionsRoutes: Routes = [
   {
-    path: '',
-    component: SectionsComponent,
-  },
-  {
-    path: ':sectionID',
+    path: ':sectionSlug',
     component: SectionDetailsComponent,
     resolve: {
-      sectionData: sectionDetailsResolver,
+      section: sectionDetailsResolver,
     },
   },
 ];

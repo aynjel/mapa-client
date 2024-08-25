@@ -9,12 +9,14 @@ import { CreateSectionPayload, Section } from './types/section.types';
 import { computed, inject } from '@angular/core';
 import { SectionsService } from './services/sections.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthStore } from '@core/auth/auth.store';
 
 type SectionState = {
   isLoading: boolean;
   isSubmitted: boolean;
   searchKeyword: string;
   sections: Section[];
+  section: Section | null;
   message: string;
 };
 
@@ -23,6 +25,7 @@ const initialState: SectionState = {
   isSubmitted: false,
   searchKeyword: '',
   sections: [],
+  section: null,
   message: '',
 };
 
@@ -61,6 +64,27 @@ export const SectionStore = signalStore(
         },
       });
     },
+    // getSection(sectionSlug: string) {
+    //   patchState(store, { isLoading: true });
+    //   sectionService.getSection(sectionSlug).subscribe({
+    //     next: (section) => {
+    //       console.log('section', section);
+
+    //       patchState(store, {
+    //         isLoading: false,
+    //         section: section.data,
+    //         message: section.message,
+    //       });
+    //     },
+    //     error: (error: HttpErrorResponse) => {
+    //       patchState(store, {
+    //         isLoading: false,
+    //         section: null,
+    //         message: error.error.message || error.message,
+    //       });
+    //     },
+    //   });
+    // },
     setSearchKeyword(keyword: string) {
       patchState(store, { searchKeyword: keyword });
     },

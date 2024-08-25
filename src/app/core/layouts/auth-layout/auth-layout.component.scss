@@ -6,9 +6,17 @@
   background-color: #333333;
 }
 
+main {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* position bottom nav at the bottom of the screen */
 .mat-toolbar-nav {
-  height: auto;
   position: fixed;
   bottom: 0;
   padding: 0;
@@ -22,10 +30,16 @@
   font-weight: 600;
 }
 
-main {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.header-logo {
+  text-align: center;
+  img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 2rem;
+  }
 }

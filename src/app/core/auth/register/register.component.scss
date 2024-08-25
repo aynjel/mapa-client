@@ -1,19 +1,14 @@
 .register-card {
   max-width: 420px;
-  background: transparent;
-  box-shadow: none;
 }
 
 mat-card-title {
-  font-size: 1.5rem;
-  color: var(--secondary-color);
-  font-weight: 600;
+  color: #fff;
 }
 
-mat-card-subtitle {
-  font-size: 1rem;
-  color: var(--secondary-color);
-  font-weight: 400;
+mat-card-content {
+  padding: 0;
+  margin: 0;
 }
 
 mat-form-field {
@@ -22,17 +17,11 @@ mat-form-field {
 
 .flex-container {
   display: flex;
-  gap: 10px;
+  column-gap: 6px;
 }
 
 .radio-role {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  background-color: #4a4a4a;
-  border-radius: 4px;
-  padding: 10px;
+  padding: 0 16px;
 
   label {
     color: #fff;
@@ -40,19 +29,13 @@ mat-form-field {
 
   mat-radio-group {
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    column-gap: 10px;
   }
 }
 
 mat-card-actions {
-  padding: 0 15px;
-  align-items: flex-start;
   button {
     width: 100%;
-    box-shadow: none;
-    margin-top: 14px;
-
     &:disabled {
       background: var(--primary-color-disabled);
     }

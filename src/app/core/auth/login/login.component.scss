@@ -1,19 +1,14 @@
 .login-card {
-  max-width: 400px;
-  background: transparent;
-  box-shadow: none;
+  max-width: 420px;
 }
 
 mat-card-title {
-  font-size: 1.5rem;
-  color: var(--secondary-color);
-  font-weight: 600;
+  color: #fff;
 }
 
-mat-card-subtitle {
-  font-size: 1rem;
-  color: var(--secondary-color);
-  font-weight: 400;
+mat-card-content {
+  padding: 0;
+  margin: 0;
 }
 
 mat-form-field {
@@ -21,11 +16,8 @@ mat-form-field {
 }
 
 mat-card-actions {
-  padding: 0 15px;
-  align-items: flex-start;
   button {
     width: 100%;
-    box-shadow: none;
 
     &:disabled {
       background: var(--primary-color-disabled);

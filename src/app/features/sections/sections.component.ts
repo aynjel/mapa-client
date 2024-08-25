@@ -8,28 +8,38 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SectionFormComponent } from './section-form/section-form.component';
+import { SectionStore } from './sections.store';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UpperCasePipe } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sections',
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    RouterModule,
+    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    UpperCasePipe,
   ],
   templateUrl: './sections.component.html',
   styleUrl: './sections.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionsComponent {
+  protected sectionStore = inject(SectionStore);
   readonly dialog = inject(MatDialog);
 
   searchFilter = signal<string>('');
@@ -37,6 +47,7 @@ export class SectionsComponent {
   setFilter = (event: Event) => {
     const value = (event.target as HTMLInputElement).value;
     this.searchFilter.set(value);
+    this.sectionStore.setSearchKeyword(this.searchFilter());
   };
 
   addSectionModal() {

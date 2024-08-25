@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { SectionStore } from '../sections.store';
 
 @Component({
   selector: 'app-section-form',
@@ -26,6 +27,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './section-form.component.scss',
 })
 export class SectionFormComponent {
+  protected readonly sectionStore = inject(SectionStore);
   private formBuilder = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
@@ -41,10 +43,15 @@ export class SectionFormComponent {
 
   onSubmit() {
     if (this.sectionForm.valid) {
-      this.dialog.closeAll();
-      this.snackBar.open('Section created successfully', 'Close', {
+      this.sectionStore.addSection(this.sectionForm.value);
+      this.snackBar.open(this.sectionStore.message(), 'Close', {
         duration: 3000,
       });
+      this.dialog.closeAll();
+      this.sectionStore.getSections();
+      if (!this.sectionStore.isLoading()) {
+        console.log('Form Submitted');
+      }
     }
   }
 }

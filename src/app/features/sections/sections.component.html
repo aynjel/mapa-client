@@ -8,26 +8,12 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+    @if (authStore.user()?.role === 'teacher') {
     <button class="add-section-btn" mat-raised-button color="primary" (click)="addSectionModal()">Add Section</button>
+    }
   </div>
 </header>
 <section>
-  <div class="section-list-container">
-    @if (sectionStore.isLoading()) {
-    <mat-spinner></mat-spinner>
-    } @else {
-    @for (item of sectionStore.loadFilteredSections(); track $index) {
-    <mat-card class="section-card">
-      <mat-card-header>
-        <mat-card-title>{{item.title | uppercase}}</mat-card-title>
-        <mat-card-subtitle>Students: {{item.studentsCount}} | Announcements: {{item.postsCount}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Description: {{item.description}}</p>
-        <a [routerLink]="['/sections', item.slug]" style="color: #fff;">View</a>
-      </mat-card-content>
-    </mat-card>
-    }
-    }
-  </div>
+  <app-sections-list [loadingState]="sectionStore.isLoading()" [listsContent]="sectionStore.sections()"
+    [searchFilter]="sectionStore.searchKeyword()"></app-sections-list>
 </section>

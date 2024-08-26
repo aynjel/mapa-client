@@ -16,6 +16,10 @@ import { SectionStore } from './sections.store';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UpperCasePipe } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
+import { Section } from './types/section.types';
+import { AuthStore } from '@core/auth/auth.store';
+import { MatRippleModule } from '@angular/material/core';
+import { SectionsListComponent } from './components/sections-list/sections-list.component';
 
 @Component({
   selector: 'app-sections',
@@ -23,7 +27,6 @@ import { RouterLink, RouterModule } from '@angular/router';
   imports: [
     ReactiveFormsModule,
     RouterModule,
-    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -31,14 +34,17 @@ import { RouterLink, RouterModule } from '@angular/router';
     MatIconModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatRippleModule,
     FormsModule,
     UpperCasePipe,
+    SectionsListComponent,
   ],
   templateUrl: './sections.component.html',
   styleUrl: './sections.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionsComponent {
+  protected authStore = inject(AuthStore);
   protected sectionStore = inject(SectionStore);
   readonly dialog = inject(MatDialog);
 
@@ -56,5 +62,13 @@ export class SectionsComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  deleteSection(slug: string) {
+    console.log(slug);
+  }
+
+  editSection(section: Section) {
+    console.log(section);
   }
 }

@@ -45,7 +45,6 @@ export const routes: Routes = [
       import('./features/sections/sections.routes').then(
         (m) => m.sectionsRoutes
       ),
-    title: 'Sections',
     canActivate: [authGuard],
   },
   {

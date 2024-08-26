@@ -5,6 +5,11 @@
   <span>
     {{titleService.getTitle()}}
   </span>
+  <span class="spacer"></span>
+  <!-- Info -->
+  <button mat-icon-button aria-label="Info" (click)="infoModal()" matTooltip="Info">
+    <mat-icon>info</mat-icon>
+  </button>
 </mat-toolbar>
 
 <main>

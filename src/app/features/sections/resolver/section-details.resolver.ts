@@ -22,11 +22,6 @@ export const sectionDetailsResolver: ResolveFn<Section | null> = (
 
   return sectionService.getSection(sectionSlug).pipe(
     map((section) => {
-      if (!section) {
-        router.navigate(['/dashboard']);
-        return null;
-      }
-
       titleService.setTitle(section.data.title);
 
       return section.data;

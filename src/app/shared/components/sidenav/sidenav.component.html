@@ -1,0 +1,20 @@
+<div class="sidenav-header" [routerLink]="['/profile']" matTooltip="Profile" matTooltipPosition="right">
+  <img [src]="user?.avatarURL" [width]="profilePicSize()" [height]="profilePicSize()" [alt]="user?.name">
+  <div class="header-text" [class.hide-header-text]="collapsed">
+    <h3>{{user?.name}}</h3>
+    <p>{{user?.role}}</p>
+  </div>
+</div>
+
+<mat-nav-list>
+  @for(menuItem of menuItems; track $index){
+  <a mat-list-item class="menu-items" [routerLink]="menuItem.route" routerLinkActive="selected-menu-item"
+    #rla="routerLinkActive" [activated]="rla.isActive" matTooltip="{{menuItem.label}}" matTooltipPosition="right">
+    <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>{{ menuItem.icon
+      }}</mat-icon>
+    @if(!collapsed){
+    <span matListItemTitle>{{ menuItem.label }}</span>
+    }
+  </a>
+  }
+</mat-nav-list>

@@ -1,0 +1,12 @@
+<main>
+  <div class="header-logo">
+    <img [src]="logo" alt="MAPA Logo">
+    <h1>MAPA</h1>
+  </div>
+  <router-outlet></router-outlet>
+
+  <mat-toolbar class="mat-toolbar-nav">
+    <button mat-button routerLink="/auth/signin" routerLinkActive="active">Login</button>
+    <button mat-button routerLink="/auth/signup" routerLinkActive="active">Register</button>
+  </mat-toolbar>
+</main>

@@ -1,0 +1,45 @@
+.spacer {
+  flex: 1;
+}
+
+.active {
+  background-color: #333333;
+}
+
+main {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* position bottom nav at the bottom of the screen */
+.mat-toolbar-nav {
+  position: fixed;
+  bottom: 0;
+  padding: 0;
+}
+
+.mat-toolbar-nav button {
+  width: 100%;
+  height: 64px;
+  border-radius: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.header-logo {
+  text-align: center;
+  img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 2rem;
+  }
+}

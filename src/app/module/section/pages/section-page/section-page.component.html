@@ -1,0 +1,23 @@
+<p>section-page works!</p>
+
+
+<ng-container *ngIf="sections$ | async as sections;">
+
+  <ul *ngIf="sections.length; else empty">
+    <li *ngFor="let s of sections$ | async; let i = index;">
+      {{s.id}} {{ s.name }} - {{ s.description }}
+    </li>
+
+  </ul>
+
+  <ng-template #empty>
+    <div>No Data</div>
+  </ng-template>
+
+
+  <button (click)="loadSections()">Refresh</button>
+  <button (click)="addSection(sections.length + 1)">Add</button>
+
+  <div *ngIf="isLoading$ | async">Loading...</div>
+
+</ng-container>

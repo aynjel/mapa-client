@@ -27,10 +27,15 @@ import { DefaultComponent } from './layout/default/default.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { appEffects, appStore } from './store/app.store';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { SectionPageComponent } from './module/section/pages/section-page/section-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    SectionPageComponent,
     DashboardComponent,
     AnnouncementComponent,
     ProfileComponent,
@@ -47,6 +52,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    StoreModule.forRoot(appStore, {}),
+    EffectsModule.forRoot(appEffects),
     ReactiveFormsModule,
     HttpClientModule,
     MatIconModule,

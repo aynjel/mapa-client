@@ -16,11 +16,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 const routes: Route[] = [
   {
-    path: '',
-    redirectTo: 'signin',
-    pathMatch: 'full',
-  },
-  {
     path: 'signin',
     component: SigninComponent,
     title: 'Signin',

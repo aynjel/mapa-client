@@ -11,15 +11,15 @@ export class AppComponent {
   title = 'mapa';
 
   constructor(private authService: AuthService, private route: Router) {
-    if (window.localStorage.getItem('token')) {
-      this.authService.getCurrentUser().subscribe({
-        next: (res) => {
-          window.localStorage.setItem('user', JSON.stringify(res.data));
-          this.route.navigate(['/dashboard']);
-        },
-      });
-    } else {
-      this.route.navigate(['/auth/signin']);
-    }
+    // if (window.localStorage.getItem('token')) {
+    //   this.authService.getCurrentUser().subscribe({
+    //     next: (res) => {
+    //       window.localStorage.setItem('user', JSON.stringify(res.data));
+    //       this.route.navigate(['/dashboard']);
+    //     },
+    //   });
+    // } else {
+    //   this.route.navigate(['/auth/signin']);
+    // }
   }
 }

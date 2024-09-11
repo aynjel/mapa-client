@@ -8,6 +8,7 @@ import { AnnouncementComponent } from './pages/announcement/announcement.compone
 import { ProfileComponent } from './pages/profile/profile.component';
 import { UserComponent } from './pages/user/user.component';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -46,6 +47,7 @@ const routes: Routes = [
         title: 'User',
       },
     ],
+    canActivate: [authGuard],
   },
 ];
 

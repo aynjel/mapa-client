@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-const routes: Route[] = [
+const routes: Routes = [
   {
     path: '',
     redirectTo: 'signin',

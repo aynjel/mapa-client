@@ -1,0 +1,19 @@
+.section-list {
+  height: 76vh;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 0.4fr));
+  grid-gap: 20px;
+  justify-content: center;
+
+  mat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+  }
+}
+
+.no-sections {
+  margin-bottom: 20px;
+}

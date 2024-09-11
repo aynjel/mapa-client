@@ -1,1 +1,21 @@
-<p>announcement-list works!</p>
+<div class="announcement-list" *ngIf="announcements.length; else noAnnouncement">
+  <mat-card appearance="outlined" *ngFor="let announcement of announcements">
+    <mat-card-header>
+      <mat-card-title>{{announcement.title}}</mat-card-title>
+      <mat-card-subtitle>{{announcement.description}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end">
+      <button mat-button color="primary" routerLink="/announcement/{{announcement.slug}}">
+        View
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<ng-template #noAnnouncement>
+  <mat-card appearance="outlined">
+    <mat-card-content>
+      No Announcements found
+    </mat-card-content>
+  </mat-card>
+</ng-template>

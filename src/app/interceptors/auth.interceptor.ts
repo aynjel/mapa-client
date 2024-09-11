@@ -6,10 +6,17 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { UserDataSource } from '../shared/types/user.types';
 
 export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    const token = window.localStorage.getItem('token');
+    const source = window.localStorage.getItem('user');
+    if (!source) {
+      return next.handle(request);
+    }
+
+    const userData = JSON.parse(source) as UserDataSource;
+    const token = userData.token;
 
     const updatedRequest = request.clone({
       setHeaders: {

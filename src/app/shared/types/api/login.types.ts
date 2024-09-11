@@ -1,8 +1,6 @@
-import { User } from '../user.types';
+import { User, UserDataSource } from '../user.types';
 import { APIResponse } from './api-response.types';
 
-export type LoginResponse = APIResponse<
-  Pick<User, 'id' | 'name' | 'email' | 'role' | 'token'>
->;
+export type LoginResponse = APIResponse<UserDataSource>;
 
 export type LoginPayload = Pick<User, 'email' | 'password'>;

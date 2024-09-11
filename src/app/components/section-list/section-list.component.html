@@ -1,1 +1,21 @@
-<p>section-list works!</p>
+<div class="section-list" *ngIf="sections.length; else noSections">
+  <mat-card appearance="outlined" *ngFor="let section of sections">
+    <mat-card-header>
+      <mat-card-title>{{section.title}}</mat-card-title>
+      <mat-card-subtitle>{{section.description}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end">
+      <button mat-button color="primary" (click)="onSectionClick(section)">
+        View
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<ng-template #noSections>
+  <mat-card appearance="outlined" class="no-sections">
+    <mat-card-content>
+      {{ isLoading ? 'Loading...' : 'No sections found' }}
+    </mat-card-content>
+  </mat-card>
+</ng-template>

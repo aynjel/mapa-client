@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent {
   loginForm: FormGroup;
+  isLoading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,15 +26,13 @@ export class SigninComponent {
   }
 
   onSubmit() {
+    this.isLoading = true;
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
-          window.localStorage.setItem('token', res.data.token);
-          window.localStorage.setItem('user', JSON.stringify(res.data));
-
           this.snackBar
             .open(res.message, 'Close', {
-              duration: 1500,
+              duration: 1000,
             })
             .afterDismissed()
             .subscribe(() => {
@@ -45,6 +44,11 @@ export class SigninComponent {
           this.snackBar.open(error.error.message || error.message, 'Close', {
             duration: 3000,
           });
+
+          this.isLoading = false;
+        },
+        complete: () => {
+          this.isLoading = false;
         },
       });
     } else {

@@ -27,6 +27,12 @@ import { DefaultComponent } from './layout/default/default.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +49,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     UserComponent,
     SidenavComponent,
     DefaultComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,12 +57,17 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     MatIconModule,
+    MatFormFieldModule,
     MatButtonModule,
     MatToolbarModule,
     MatSidenavModule,
     MatTooltipModule,
     MatListModule,
     MatDividerModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatDialogModule,
   ],
   providers: [
     provideAnimationsAsync(),

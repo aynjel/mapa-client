@@ -13,6 +13,8 @@ export type User = {
   updatedAt: Date;
 };
 
-export type CurrentUserResponse = APIResponse<Omit<User, 'password'>>;
+export type UserDataSource = Omit<User, 'password'>;
+
+export type CurrentUserResponse = APIResponse<UserDataSource>;
 
 export type LogoutResponse = APIResponse<string>;

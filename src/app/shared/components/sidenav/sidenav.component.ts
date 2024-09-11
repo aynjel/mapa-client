@@ -1,5 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { CurrentUserResponse, User } from '../../types/user.types';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  CurrentUserResponse,
+  User,
+  UserDataSource,
+} from '../../types/user.types';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 
 type MenuItem = {
   icon: string;
@@ -12,26 +19,22 @@ type MenuItem = {
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit {
   @Input() collapsed: boolean = true;
 
   readonly menuItems: MenuItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
+    { icon: 'announcement', label: 'Announcements', route: '/announcements' },
     { icon: 'people', label: 'Users', route: '/users' },
     { icon: 'settings', label: 'Settings', route: '/settings' },
   ];
 
-  user: CurrentUserResponse['data'] | null = null;
+  user$: Observable<UserDataSource | null> = of(null);
 
-  constructor() {
-    const userData = window.localStorage.getItem('user');
-    const parsedData = JSON.parse(
-      userData || '{}'
-    ) as CurrentUserResponse['data'];
+  constructor(private authService: AuthService, private route: Router) {}
 
-    if (parsedData) {
-      this.user = parsedData;
-    }
+  ngOnInit(): void {
+    this.user$ = this.authService.current$;
   }
 
   profilePicSize() {
@@ -43,6 +46,12 @@ export class SidenavComponent {
   }
 
   logout(): void {
-    console.log('Logout');
+    this.authService.logout().subscribe({
+      next: (res) => {
+        if (res) {
+          this.route.navigate(['/auth/signin']);
+        }
+      },
+    });
   }
 }

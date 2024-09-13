@@ -28,15 +28,16 @@ export class SigninComponent {
   onSubmit() {
     this.isLoading = true;
     if (this.loginForm.valid) {
+      this.loginForm.disable();
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           this.snackBar
             .open(res.message, 'Close', {
-              duration: 1000,
+              duration: 1500,
             })
             .afterDismissed()
             .subscribe(() => {
-              this.route.navigate(['/dashboard']);
+              this.route.navigate(['/mapa']);
             });
         },
         error: (error) => {
@@ -46,15 +47,23 @@ export class SigninComponent {
           });
 
           this.isLoading = false;
+          this.loginForm.enable();
         },
         complete: () => {
           this.isLoading = false;
+          this.loginForm.enable();
         },
       });
     } else {
-      this.snackBar.open('Please fill in all required fields', 'Close', {
-        duration: 3000,
-      });
+      this.snackBar
+        .open('Please fill in all required fields', 'Close', {
+          duration: 1500,
+        })
+        .afterDismissed()
+        .subscribe(() => {
+          this.isLoading = false;
+          this.loginForm.enable();
+        });
     }
   }
 

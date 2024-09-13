@@ -1,15 +1,7 @@
 <div class="section-list" *ngIf="sections.length; else noSections">
-  <mat-card appearance="outlined" *ngFor="let section of sections">
-    <mat-card-header>
-      <mat-card-title>{{section.title}}</mat-card-title>
-      <mat-card-subtitle>{{section.description}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions align="end">
-      <button mat-button color="primary" (click)="onSectionClick(section)">
-        View
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <ng-container *ngFor="let section of sections">
+    <app-section-card [section]="section" (sectionClick)="onSectionClick($event)"></app-section-card>
+  </ng-container>
 </div>
 
 <ng-template #noSections>

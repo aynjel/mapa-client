@@ -1,1 +1,11 @@
-<p>section-card works!</p>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{section.title}}</mat-card-title>
+    <mat-card-subtitle>{{section.description}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions align="end" *ngIf="!isDetailsPage">
+    <button mat-button color="primary" (click)="onSectionClick(section)">
+      View
+    </button>
+  </mat-card-actions>
+</mat-card>

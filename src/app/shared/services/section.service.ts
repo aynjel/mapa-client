@@ -8,12 +8,13 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, delay, map, Observable } from 'rxjs';
 import { environment } from './../../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SectionService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getSections(page?: number, limit?: number): Observable<SectionListResponse> {
     return this.http

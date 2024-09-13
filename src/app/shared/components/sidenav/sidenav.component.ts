@@ -1,12 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  CurrentUserResponse,
-  User,
-  UserDataSource,
-} from '../../types/user.types';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserDataSource } from '../../types/user.types';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 type MenuItem = {
   icon: string;
@@ -23,15 +19,24 @@ export class SidenavComponent implements OnInit {
   @Input() collapsed: boolean = true;
 
   readonly menuItems: MenuItem[] = [
-    { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
-    { icon: 'announcement', label: 'Announcements', route: '/announcements' },
-    { icon: 'people', label: 'Users', route: '/users' },
-    { icon: 'settings', label: 'Settings', route: '/settings' },
+    { icon: 'dashboard', label: 'Dashboard', route: '/mapa/dashboard' },
+    {
+      icon: 'announcement',
+      label: 'Announcements',
+      route: '/mapa/announcements',
+    },
+    { icon: 'people', label: 'Users', route: '/mapa/users' },
+    // { icon: 'settings', label: 'Settings', route: '/settings' },
   ];
 
   user$: Observable<UserDataSource | null> = of(null);
 
-  constructor(private authService: AuthService, private route: Router) {}
+  isLoggingOut: boolean = false;
+
+  constructor(
+    private authService: AuthService,
+    private snackbar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.authService.current$;
@@ -46,10 +51,15 @@ export class SidenavComponent implements OnInit {
   }
 
   logout(): void {
+    this.isLoggingOut = true;
     this.authService.logout().subscribe({
       next: (res) => {
+        this.isLoggingOut = false;
         if (res) {
-          this.route.navigate(['/auth/signin']);
+          this.snackbar.open(res.message, 'Close', {
+            duration: 1500,
+          });
+          window.location.reload();
         }
       },
     });

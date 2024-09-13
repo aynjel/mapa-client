@@ -25,7 +25,7 @@ export class SignupComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      role: ['', [Validators.required]],
+      role: ['', Validators.required],
     });
 
     this.registerForm
@@ -34,8 +34,10 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    const { name, email, password, role } = this.registerForm.value;
     this.isLoading = true;
+    this.registerForm.disable();
+
+    const { name, email, password, role } = this.registerForm.value;
     if (this.registerForm.valid) {
       this.authService
         .register({
@@ -48,7 +50,7 @@ export class SignupComponent {
           next: (res) => {
             this.snackBar
               .open(res.message, 'Close', {
-                duration: 3000,
+                duration: 1500,
               })
               .afterDismissed()
               .subscribe(() => {
@@ -57,22 +59,30 @@ export class SignupComponent {
           },
           error: (error) => {
             this.snackBar
-              .open(error, 'Close', {
+              .open(error.error.message || error.message, 'Close', {
                 duration: 3000,
               })
               .afterDismissed()
               .subscribe(() => {
                 this.isLoading = false;
+                this.registerForm.enable();
               });
           },
           complete: () => {
             this.isLoading = false;
+            this.registerForm.enable();
           },
         });
     } else {
-      this.snackBar.open('Please fill in all required fields', 'Close', {
-        duration: 3000,
-      });
+      this.snackBar
+        .open('Please fill in all required fields', 'Close', {
+          duration: 1500,
+        })
+        .afterDismissed()
+        .subscribe(() => {
+          this.isLoading = false;
+          this.registerForm.enable();
+        });
     }
   }
 
@@ -96,11 +106,15 @@ export class SignupComponent {
       return 'Password does not match';
     }
     if (ctrlName?.hasError('required')) {
-      return 'You must enter a value';
+      return 'Required field';
     }
     if (ctrlName?.hasError('minlength')) {
       return 'Password must be at least 6 characters';
     }
-    return ctrlName?.hasError('email') ? 'Not a valid email' : null;
+    if (ctrlName?.hasError('email')) {
+      return 'Not a valid email';
+    }
+
+    return '';
   }
 }

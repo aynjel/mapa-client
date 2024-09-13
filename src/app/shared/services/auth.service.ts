@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, delay, map, Observable } from 'rxjs';
 import { LoginPayload } from '../types/api/login.types';
 import { environment } from '../../../environments/environment';
 import { RegisterPayload, RegisterResponse } from '../types/api/register.types';
@@ -63,6 +63,7 @@ export class AuthService {
     return this.http
       .get<LogoutResponse>(`${environment.base_url}/api/auth/logout`)
       .pipe(
+        delay(2000),
         map((res) => {
           if (res) {
             window.localStorage.removeItem('user');

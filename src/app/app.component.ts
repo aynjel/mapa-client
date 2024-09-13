@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './shared/services/auth.service';
-import { Router } from '@angular/router';
-import { UserDataSource } from './shared/types/user.types';
-import { map } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +8,22 @@ import { map } from 'rxjs';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'mapa';
-
-  constructor(private authService: AuthService, private route: Router) {}
+  constructor(
+    private authService: AuthService,
+    private snackbar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.authService.current$.subscribe((res) => {
-      if (res) {
-        this.route.navigate(['/dashboard']);
-      }
+    const userDataString = localStorage.getItem('user');
+    if (!userDataString) return;
+    this.authService.getCurrentUser().subscribe({
+      next: (res) => {
+        if (res) {
+          this.snackbar.open(`Hola, ${res.data.name}`, 'Close', {
+            duration: 1500,
+          });
+        }
+      },
     });
   }
 }

@@ -71,6 +71,6 @@ export class DashboardComponent implements OnInit {
   onClick(section: Section) {
     console.log(section);
 
-    this.route.navigate(['/section', section.slug]);
+    this.route.navigate(['/mapa/dashboard', section.slug]);
   }
 }

@@ -33,6 +33,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchComponent } from './components/search/search.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { SectionComponent } from './pages/section/section.component';
+import { SectionTabsComponent } from './components/section-tabs/section-tabs.component';
+import { MatTableModule } from '@angular/material/table';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +55,9 @@ import { SearchComponent } from './components/search/search.component';
     SidenavComponent,
     DefaultComponent,
     SearchComponent,
+    SectionComponent,
+    SectionTabsComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +76,8 @@ import { SearchComponent } from './components/search/search.component';
     MatProgressSpinnerModule,
     MatInputModule,
     MatDialogModule,
+    MatTabsModule,
+    MatTableModule,
   ],
   providers: [
     provideAnimationsAsync(),

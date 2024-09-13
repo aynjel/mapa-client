@@ -9,6 +9,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { UserComponent } from './pages/user/user.component';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
 import { authGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -23,31 +24,23 @@ const routes: Routes = [
       import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: '',
+    path: 'mapa',
     component: DefaultComponent,
-    children: [
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        title: 'Dashboard',
-      },
-      {
-        path: 'announcements',
-        component: AnnouncementComponent,
-        title: 'Announcements',
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-        title: 'Profile',
-      },
-      {
-        path: 'user',
-        component: UserComponent,
-        title: 'User',
-      },
-    ],
+    loadChildren: () =>
+      import('./pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
     canActivate: [authGuard],
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
+    title: 'Not Found',
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
+    pathMatch: 'full',
   },
 ];
 

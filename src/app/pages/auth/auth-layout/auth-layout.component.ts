@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-auth-layout',
@@ -14,8 +13,10 @@ export class AuthLayoutComponent implements OnInit {
   constructor(private authService: AuthService, private route: Router) {}
 
   ngOnInit(): void {
-    const userDataString = localStorage.getItem('user');
-    if (!userDataString) return;
-    this.authService.getCurrentUser().subscribe();
+    this.authService.current$.subscribe((user) => {
+      if (user) {
+        this.route.navigate(['/mapa']);
+      }
+    });
   }
 }

@@ -1,1 +1,38 @@
-<p>profile works!</p>
+<mat-card class="card" appearance="outlined" *ngIf="user$ | async as user">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img class="header-image" [src]="user.avatarURL" [alt]="user.name" />
+    </div>
+    <mat-card-title>{{user.name | titlecase}} ({{user.role | uppercase}})</mat-card-title>
+    <mat-card-subtitle>
+      {{user.email}}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="edit-password-form" [formGroup]="editForm" (ngSubmit)="onSubmitEdit()" *ngIf="isEditPassword">
+      <mat-form-field appearance="fill">
+        <mat-label>Current Password</mat-label>
+        <input matInput type="password" formControlName="currentPassword">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" formControlName="newPassword">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="confirmPassword">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Update</button>
+      <button mat-button color="warn" type="button" (click)="isEditPassword = !isEditPassword">Cancel</button>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="isEditPassword = !isEditPassword" *ngIf="!isEditPassword">
+      Edit Password
+    </button>
+    <button mat-button color="warn" (click)="onLogout()">Logout</button>
+  </mat-card-actions>
+</mat-card>

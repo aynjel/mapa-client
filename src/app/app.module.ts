@@ -38,6 +38,7 @@ import { SectionComponent } from './pages/section/section.component';
 import { SectionTabsComponent } from './components/section-tabs/section-tabs.component';
 import { MatTableModule } from '@angular/material/table';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     SectionComponent,
     SectionTabsComponent,
     NotFoundComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,

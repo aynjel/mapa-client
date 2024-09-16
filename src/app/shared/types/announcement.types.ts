@@ -13,6 +13,11 @@ export type Announcement = {
   updatedAt: string;
 };
 
+export type CreateAnnouncementPayload = Pick<
+  Announcement,
+  'title' | 'description' | 'content' | 'section'
+>;
+
 export type AnnouncementListResponse = APIResponse<Announcement[]>;
 
 export type AnnouncementResponse = APIResponse<Announcement>;

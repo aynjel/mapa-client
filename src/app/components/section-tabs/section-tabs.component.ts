@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Section } from '../../shared/types/section.types';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { AnnouncementFormComponent } from '../announcement-form/announcement-form.component';
 
 export interface PeriodicElement {
   name: string;
@@ -33,8 +35,20 @@ export class SectionTabsComponent {
   displayedColumns: string[] = ['position', 'name'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
+  constructor(private matDialog: MatDialog) {}
+
   applyFilter(event: string) {
     this.dataSource.filter = event.trim().toLowerCase();
     this.inputValue = event;
+  }
+
+  onClickAddAnnouncement() {
+    const dialogRef = this.matDialog.open(AnnouncementFormComponent, {
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe((res: Section) => {
+      console.log(res);
+    });
   }
 }

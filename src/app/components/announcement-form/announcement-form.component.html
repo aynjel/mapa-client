@@ -1,1 +1,28 @@
-<p>announcement-form works!</p>
+<form [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="title" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput type="text" formControlName="description"></textarea>
+  </mat-form-field>
+  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+  <div class="file-upload">
+
+    {{fileName || "No file uploaded yet."}}
+
+    <button type="button" mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </div>
+  <button mat-raised-button type="submit" color="primary" [disabled]="announcementForm.invalid">
+    <ng-container *ngIf="!isLoading; else loading">
+      Save
+    </ng-container>
+    <ng-template #loading>
+      <mat-spinner diameter="20" color="accent"></mat-spinner>
+    </ng-template>
+  </button>
+</form>

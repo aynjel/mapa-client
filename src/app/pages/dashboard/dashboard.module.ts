@@ -6,7 +6,6 @@ import { sectionResolver } from '../../resolvers/section.resolver';
 import { ProfileComponent } from '../profile/profile.component';
 import { AnnouncementComponent } from '../announcement/announcement.component';
 import { UserComponent } from '../user/user.component';
-import { NotFoundComponent } from '../not-found/not-found.component';
 
 const routes: Routes = [
   {

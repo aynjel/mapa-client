@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.file-upload {
+  cursor: pointer;
+  text-align: center;
+  padding: 20px;
+}

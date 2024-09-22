@@ -43,12 +43,9 @@ export class SectionTabsComponent {
   }
 
   onClickAddAnnouncement() {
-    const dialogRef = this.matDialog.open(AnnouncementFormComponent, {
+    this.matDialog.open(AnnouncementFormComponent, {
       width: '600px',
-    });
-
-    dialogRef.afterClosed().subscribe((res: Section) => {
-      console.log(res);
+      data: this.section,
     });
   }
 }

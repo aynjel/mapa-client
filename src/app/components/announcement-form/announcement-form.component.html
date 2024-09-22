@@ -1,4 +1,4 @@
-<form [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="announcementForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
     <input matInput type="text" formControlName="title" />
@@ -7,7 +7,8 @@
     <mat-label>Description</mat-label>
     <textarea matInput type="text" formControlName="description"></textarea>
   </mat-form-field>
-  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+  <!-- <input type="file" formControlName="content" (change)="onFileSelected($event)" /> -->
+  <!-- <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
 
   <div class="file-upload">
 
@@ -16,7 +17,7 @@
     <button type="button" mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
       <mat-icon>attach_file</mat-icon>
     </button>
-  </div>
+  </div> -->
   <button mat-raised-button type="submit" color="primary" [disabled]="announcementForm.invalid">
     <ng-container *ngIf="!isLoading; else loading">
       Save

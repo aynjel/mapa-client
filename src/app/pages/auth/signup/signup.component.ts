@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  registerForm!: FormGroup;
+  registerForm: FormGroup = new FormGroup({});
   isLoading = false;
 
   protected readonly roles: string[] = ['parent', 'teacher', 'student'];
@@ -35,10 +36,9 @@ export class SignupComponent {
 
   onSubmit() {
     this.isLoading = true;
-    this.registerForm.disable();
-
     const { name, email, password, role } = this.registerForm.value;
     if (this.registerForm.valid) {
+      // this.registerForm.disable();
       this.authService
         .register({
           name,
@@ -46,6 +46,12 @@ export class SignupComponent {
           password,
           role,
         })
+        .pipe(
+          finalize(() => {
+            this.isLoading = false;
+            this.registerForm.enable();
+          })
+        )
         .subscribe({
           next: (res) => {
             this.snackBar
@@ -58,19 +64,9 @@ export class SignupComponent {
               });
           },
           error: (error) => {
-            this.snackBar
-              .open(error.error.message || error.message, 'Close', {
-                duration: 3000,
-              })
-              .afterDismissed()
-              .subscribe(() => {
-                this.isLoading = false;
-                this.registerForm.enable();
-              });
-          },
-          complete: () => {
-            this.isLoading = false;
-            this.registerForm.enable();
+            this.snackBar.open(error.error.message || error.message, 'Close', {
+              duration: 3000,
+            });
           },
         });
     } else {

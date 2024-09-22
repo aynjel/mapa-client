@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-signin',
@@ -29,31 +30,32 @@ export class SigninComponent {
     this.isLoading = true;
     if (this.loginForm.valid) {
       this.loginForm.disable();
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (res) => {
-          this.snackBar
-            .open(res.message, 'Close', {
-              duration: 1500,
-            })
-            .afterDismissed()
-            .subscribe(() => {
-              this.route.navigate(['/mapa']);
+      this.authService
+        .login(this.loginForm.value)
+        .pipe(
+          finalize(() => {
+            this.isLoading = false;
+            this.loginForm.enable();
+          })
+        )
+        .subscribe({
+          next: (res) => {
+            this.snackBar
+              .open(res.message, 'Close', {
+                duration: 1500,
+              })
+              .afterDismissed()
+              .subscribe(() => {
+                this.route.navigate(['/mapa']);
+              });
+          },
+          error: (error) => {
+            console.log(error);
+            this.snackBar.open(error.error.message || error.message, 'Close', {
+              duration: 3000,
             });
-        },
-        error: (error) => {
-          console.log(error);
-          this.snackBar.open(error.error.message || error.message, 'Close', {
-            duration: 3000,
-          });
-
-          this.isLoading = false;
-          this.loginForm.enable();
-        },
-        complete: () => {
-          this.isLoading = false;
-          this.loginForm.enable();
-        },
-      });
+          },
+        });
     } else {
       this.snackBar
         .open('Please fill in all required fields', 'Close', {

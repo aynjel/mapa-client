@@ -1,4 +1,4 @@
-<div class="sidenav-header" [routerLink]="['/profile']" matTooltip="Profile" matTooltipPosition="right"
+<div class="sidenav-header" [routerLink]="['/mapa/profile']" matTooltip="Profile" matTooltipPosition="right"
   *ngIf="user$ | async as user">
   <img [src]="user.avatarURL" [width]="profilePicSize()" [height]="profilePicSize()" [alt]="user.name">
   <div class="header-text" [class.hide-header-text]="collapsed">

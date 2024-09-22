@@ -4,7 +4,7 @@ export type Announcement = {
   slug: string;
   title: string;
   description: string;
-  content: string;
+  content: any;
   section: string;
   author: string;
   commentsCount: number;
@@ -15,7 +15,7 @@ export type Announcement = {
 
 export type CreateAnnouncementPayload = Pick<
   Announcement,
-  'title' | 'description' | 'content' | 'section'
+  'title' | 'description' | 'content'
 >;
 
 export type AnnouncementListResponse = APIResponse<Announcement[]>;

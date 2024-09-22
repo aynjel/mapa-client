@@ -25,6 +25,7 @@ const routes: Routes = [
     resolve: {
       section: sectionResolver,
     },
+    title: 'Section',
   },
   {
     path: 'profile',

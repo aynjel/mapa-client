@@ -18,3 +18,5 @@ export type UserDataSource = Omit<User, 'password'>;
 export type CurrentUserResponse = APIResponse<UserDataSource>;
 
 export type LogoutResponse = APIResponse<string>;
+
+export type UserListResponse = APIResponse<User[]>;

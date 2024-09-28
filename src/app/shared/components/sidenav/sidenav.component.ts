@@ -25,6 +25,11 @@ export class SidenavComponent implements OnInit {
       label: 'Announcements',
       route: '/mapa/announcements',
     },
+    {
+      icon: 'book',
+      label: 'Lessons',
+      route: '/mapa/lessons',
+    },
     { icon: 'people', label: 'Users', route: '/mapa/users' },
     // { icon: 'settings', label: 'Settings', route: '/settings' },
   ];

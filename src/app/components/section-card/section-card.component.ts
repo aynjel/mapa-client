@@ -9,6 +9,7 @@ import { Section } from '../../shared/types/section.types';
 export class SectionCardComponent {
   @Input() section!: Section;
   @Input() isDetailsPage: boolean = false;
+  @Input() height = '100%';
   @Output() sectionClick = new EventEmitter<Section>();
 
   onSectionClick(section: Section) {

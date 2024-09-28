@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z3">
+<mat-toolbar class="mat-elevation-z3" [style.backgroundColor]="'#D2E0FB'">
   <button mat-icon-button aria-label="Side Nav" (click)="setCollapse(!collapse)" matTooltip="Menu">
     <mat-icon>
       {{ collapse ? 'menu' : 'close' }}
@@ -8,7 +8,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav opened mode="side" [style.width]="sideNavWidth()">
+  <mat-sidenav opened mode="side" [style.width]="sideNavWidth()" [style.backgroundColor]="'#D2E0FB'">
     <app-sidenav [collapsed]="collapse" />
   </mat-sidenav>
 

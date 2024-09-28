@@ -16,6 +16,13 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const userDataString = localStorage.getItem('user');
     if (!userDataString) return;
-    this.authService.getCurrentUser().subscribe();
+    this.authService.getCurrentUser().subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (error) => {
+        this.authService.logout();
+      },
+    });
   }
 }

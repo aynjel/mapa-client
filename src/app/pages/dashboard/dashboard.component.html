@@ -1,6 +1,6 @@
 <ng-container *ngIf="sections$ | async as sections;">
   <div class="search-form">
-    <app-search (search)="onSubmitSearch($event)"></app-search>
+    <app-search (search)="onSubmitSearch($event)" [placeholder]="'Search section'"></app-search>
     <button mat-raised-button color="primary" (click)="onClickAddSection()">Add Section</button>
   </div>
   <app-section-list [sections]="sections" [isLoading]="isLoading" (sectionClick)="onClick($event)" />

@@ -8,6 +8,7 @@ import { Announcement } from '../../shared/types/announcement.types';
 })
 export class AnnouncementListComponent {
   @Input() announcements: Announcement[] = [];
+  @Input() isLoading: boolean = false;
   @Output() announcementClick = new EventEmitter<Announcement>();
 
   onAnnouncementClick(announcement: Announcement) {

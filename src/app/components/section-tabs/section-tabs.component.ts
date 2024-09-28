@@ -1,8 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Section } from '../../shared/types/section.types';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnouncementFormComponent } from '../announcement-form/announcement-form.component';
+import { ActivatedRoute } from '@angular/router';
+import { AnnouncementService } from '../../shared/services/announcement.service';
+import { BehaviorSubject, finalize } from 'rxjs';
+import { Announcement } from '../../shared/types/announcement.types';
 
 export interface PeriodicElement {
   name: string;
@@ -27,25 +31,72 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './section-tabs.component.html',
   styleUrl: './section-tabs.component.scss',
 })
-export class SectionTabsComponent {
+export class SectionTabsComponent implements OnInit {
   @Input() section!: Section;
+
+  isLoading = false;
 
   inputValue: string = '';
 
   displayedColumns: string[] = ['position', 'name'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private matDialog: MatDialog) {}
+  announcementSource = new BehaviorSubject<Announcement[]>([]);
+
+  announcements$ = this.announcementSource.asObservable();
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private announcementService: AnnouncementService,
+    private matDialog: MatDialog
+  ) {}
+
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.loadSectionData();
+  }
+
+  loadSectionData(page?: number, limit?: number) {
+    // section slug from url
+    const sectionSlug =
+      this.activatedRoute.snapshot.paramMap.get('sectionSlug');
+    if (sectionSlug) {
+      this.announcementService
+        .getAnnouncementsBySection(sectionSlug, page, limit)
+        .pipe(finalize(() => (this.isLoading = false)))
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+            this.announcementSource.next(res.data);
+          },
+          error: (error) => {
+            console.error(error);
+            this.announcementSource.next([]);
+          },
+        });
+    }
+  }
 
   applyFilter(event: string) {
     this.dataSource.filter = event.trim().toLowerCase();
     this.inputValue = event;
   }
 
+  onClickAnnouncement(event: Announcement) {
+    console.log(event);
+  }
+
   onClickAddAnnouncement() {
-    this.matDialog.open(AnnouncementFormComponent, {
-      width: '600px',
-      data: this.section,
-    });
+    this.matDialog
+      .open(AnnouncementFormComponent, {
+        width: '600px',
+        data: this.section,
+      })
+      .afterClosed()
+      .subscribe((res: Announcement) => {
+        if (res) {
+          this.loadSectionData();
+        }
+      });
   }
 }

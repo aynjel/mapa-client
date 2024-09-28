@@ -1,1 +1,10 @@
-<app-announcement-list [announcements]="announcements" />
+<ng-container *ngIf="announcements$ | async as announcements;">
+  <div class="search-form">
+    <app-search (search)="onSubmitSearch($event)" [placeholder]="'Search Announcements'"></app-search>
+  </div>
+  <app-announcement-list [announcements]="announcements" (announcementClick)="onClick($event)" />
+</ng-container>
+
+<ng-container *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+</ng-container>

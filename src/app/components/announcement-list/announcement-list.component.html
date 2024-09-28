@@ -1,11 +1,15 @@
 <div class="announcement-list" *ngIf="announcements.length; else noAnnouncement">
-  <mat-card appearance="outlined" *ngFor="let announcement of announcements">
+  <mat-card appearance="outlined" *ngFor="let a of announcements">
     <mat-card-header>
-      <mat-card-title>{{announcement.title}}</mat-card-title>
-      <mat-card-subtitle>{{announcement.description}}</mat-card-subtitle>
+      <mat-card-title>{{a.title}}</mat-card-title>
+      <mat-card-subtitle>{{a.description}}</mat-card-subtitle>
     </mat-card-header>
+    <mat-card-content>
+      <pdf-viewer [src]="a.content" [render-text]="true" [original-size]="false"
+        style="width: 100%; height: 300px"></pdf-viewer>
+    </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-button color="primary" routerLink="/announcement/{{announcement.slug}}">
+      <button mat-button color="primary" (click)="onAnnouncementClick(a)">
         View
       </button>
     </mat-card-actions>
@@ -15,7 +19,7 @@
 <ng-template #noAnnouncement>
   <mat-card appearance="outlined">
     <mat-card-content>
-      No Announcements found
+      {{ isLoading ? 'Loading...' : 'No announcement found' }}
     </mat-card-content>
   </mat-card>
 </ng-template>

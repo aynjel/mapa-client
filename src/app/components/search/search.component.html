@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline">
-  <mat-label>Search</mat-label>
-  <input matInput type="text" (keyup)="onSubmitSearch($event)" />
+  <mat-label>{{placeholder}}</mat-label>
+  <input matInput type="text" (keyup)="onSubmitSearch($event)" [placeholder]="placeholder" />
   <button matSuffix mat-icon-button type="button" aria-label="Search">
     <mat-icon>search</mat-icon>
   </button>

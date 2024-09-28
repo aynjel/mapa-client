@@ -4,7 +4,10 @@
       <app-search />
       <button mat-raised-button color="primary" (click)="onClickAddAnnouncement()">Add Announcement</button>
     </div>
-    <app-announcement-list />
+    <ng-container *ngIf="announcements$ | async as announcements;">
+      <app-announcement-list [announcements]="announcements" [isLoading]="isLoading"
+        (announcementClick)="onClickAnnouncement($event)" />
+    </ng-container>
   </mat-tab>
   <mat-tab label="Students">
     <app-search (search)="applyFilter($event)" />

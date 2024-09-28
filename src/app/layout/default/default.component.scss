@@ -1,10 +1,10 @@
-mt-toolbar {
-  position: relative;
-  z-index: 2;
-}
+// mt-toolbar {
+//   position: relative;
+//   z-index: 2;
+// }
 
 mat-sidenav-container {
-  height: calc(100vh - 64px);
+  height: 100vh;
 }
 
 mat-sidenav,
@@ -14,4 +14,5 @@ mat-sidenav-content {
 
 main {
   padding: 20px;
+  margin-bottom: 100px;
 }

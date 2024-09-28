@@ -40,6 +40,7 @@ import { MatTableModule } from '@angular/material/table';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TableComponent } from './components/table/table.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
     MatDialogModule,
     MatTabsModule,
     MatTableModule,
+    PdfViewerModule,
   ],
   providers: [
     provideAnimationsAsync(),

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AnnouncementService } from '../../shared/services/announcement.service';
 import { Announcement } from '../../shared/types/announcement.types';
+import { BehaviorSubject, finalize } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-announcement',
@@ -8,13 +10,43 @@ import { Announcement } from '../../shared/types/announcement.types';
   styleUrl: './announcement.component.scss',
 })
 export class AnnouncementComponent implements OnInit {
-  announcements: Announcement[] = [];
+  private announcementsSource = new BehaviorSubject<Announcement[]>([]);
+  announcements$ = this.announcementsSource.asObservable();
+  isLoading = false;
 
-  constructor(private announcementService: AnnouncementService) {}
+  constructor(
+    private announcementService: AnnouncementService,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {
-    this.announcementService.getAnnouncements().subscribe((res) => {
-      this.announcements = res.data;
-    });
+    this.isLoading = true;
+    this.loadData();
+  }
+
+  loadData(page?: number, limit?: number) {
+    this.announcementService
+      .getAnnouncements(page, limit)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.announcementsSource.next(res.data);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  onSubmitSearch(searchKeyText: string) {
+    console.log(searchKeyText);
+  }
+
+  onClick(announcement: Announcement) {
+    this.route.navigate(['/mapa/dashboard', announcement.slug]);
   }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SectionService } from '../../shared/services/section.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-section-form',
@@ -21,33 +22,39 @@ export class SectionFormComponent {
   ) {
     this.sectionForm = this.formBuilder.group({
       title: ['', Validators.required],
-      description: [''],
+      description: ['', Validators.required],
     });
   }
 
   onSubmit() {
     this.isLoading = true;
-    this.sectionService.createSection(this.sectionForm.value).subscribe({
-      next: (res) => {
-        this.dialog.close(res.data);
-        this.snackBar.open('Section created successfully', 'Close', {
-          duration: 3000,
-        });
-      },
-      error: (error) => {
-        console.log(error);
-        this.snackBar
-          .open(error.error.message || 'Something went wrong', 'Close', {
-            duration: 3000,
-          })
-          .afterDismissed()
-          .subscribe(() => {
+    if (this.sectionForm.valid) {
+      this.sectionService
+        .createSection(this.sectionForm.value)
+        .pipe(
+          finalize(() => {
             this.isLoading = false;
-          });
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
-    });
+          })
+        )
+        .subscribe({
+          next: (res) => {
+            this.dialog.close(res.data);
+            this.snackBar.open(res.message, 'Close', {
+              duration: 3000,
+            });
+          },
+          error: (error) => {
+            console.error(error);
+            this.snackBar.open(error.error.message || error.message, 'Close', {
+              duration: 3000,
+            });
+          },
+        });
+    } else {
+      this.snackBar.open('Form is invalid', 'Close', {
+        duration: 3000,
+      });
+      this.isLoading = false;
+    }
   }
 }

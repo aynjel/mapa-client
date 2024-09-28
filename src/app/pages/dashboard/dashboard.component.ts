@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SectionService } from '../../shared/services/section.service';
 import { Router } from '@angular/router';
 import { Section } from '../../shared/types/section.types';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, finalize, map } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { SectionFormComponent } from '../../components/section-form/section-form.component';
 
@@ -31,9 +31,10 @@ export class DashboardComponent implements OnInit {
     console.log(searchKeyText);
 
     // this.sections$.subscribe((sections) => {
-    //   const secs = sections.filter((section) =>
-    //     section.title.includes(searchKeyText)
-    //   );
+    //   const secs = sections.filter((section) => {
+    //     const searchKey = searchKeyText.toLowerCase();
+    //     return section.title.toLowerCase().includes(searchKey);
+    //   });
 
     //   console.log(secs);
     // });
@@ -52,25 +53,24 @@ export class DashboardComponent implements OnInit {
   }
 
   loadData(page?: number, limit?: number) {
-    this.sectionService.getSections(page, limit).subscribe({
-      next: (res) => {
-        this.sectionsSource.next(res.data);
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading = false;
-      },
-    });
-  }
-
-  onNextPage(page: number) {
-    this.loadData(page);
+    this.sectionService
+      .getSections(page, limit)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.sectionsSource.next(res.data);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   onClick(section: Section) {
-    console.log(section);
-
     this.route.navigate(['/mapa/dashboard', section.slug]);
   }
 }

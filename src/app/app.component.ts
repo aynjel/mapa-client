@@ -16,14 +16,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const userDataString = localStorage.getItem('user');
     if (!userDataString) return;
-    this.authService.getCurrentUser().subscribe({
-      next: (res) => {
-        if (res) {
-          this.snackbar.open(`Hola, ${res.data.name}`, 'Close', {
-            duration: 1500,
-          });
-        }
-      },
-    });
+    this.authService.getCurrentUser().subscribe();
   }
 }

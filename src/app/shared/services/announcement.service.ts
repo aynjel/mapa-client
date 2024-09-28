@@ -15,7 +15,7 @@ export class AnnouncementService {
   constructor(private http: HttpClient) {}
 
   createAnnouncement(
-    data: CreateAnnouncementPayload,
+    data: FormData,
     section: string
   ): Observable<AnnouncementResponse> {
     return this.http.post<AnnouncementResponse>(

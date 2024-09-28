@@ -21,7 +21,9 @@ export class AppComponent implements OnInit {
         console.log(res);
       },
       error: (error) => {
-        this.authService.logout();
+        console.log(error);
+
+        // this.authService.logout();
       },
     });
   }

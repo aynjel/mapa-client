@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-
+        localStorage.removeItem('user');
         // this.authService.logout();
       },
     });

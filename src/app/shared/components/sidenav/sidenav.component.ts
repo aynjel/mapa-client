@@ -18,7 +18,7 @@ type MenuItem = {
 export class SidenavComponent implements OnInit {
   @Input() collapsed: boolean = true;
 
-  readonly menuItems: MenuItem[] = [
+  readonly menuItemsTeacher: MenuItem[] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/mapa/dashboard' },
     {
       icon: 'announcement',
@@ -32,6 +32,20 @@ export class SidenavComponent implements OnInit {
     },
     { icon: 'people', label: 'Users', route: '/mapa/users' },
     // { icon: 'settings', label: 'Settings', route: '/settings' },
+  ];
+
+  readonly menuItemsPandS: MenuItem[] = [
+    { icon: 'dashboard', label: 'Dashboard', route: '/mapa/dashboard' },
+    {
+      icon: 'announcement',
+      label: 'Announcements',
+      route: '/mapa/announcements',
+    },
+    {
+      icon: 'book',
+      label: 'Lessons',
+      route: '/mapa/lessons',
+    },
   ];
 
   user$: Observable<UserDataSource | null> = of(null);

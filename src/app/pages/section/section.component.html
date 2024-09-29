@@ -1,4 +1,5 @@
-<app-section-card [section]="section" [isDetailsPage]="true" [height]="'100px'"></app-section-card>
+<app-section-card [section]="section" [isDetailsPage]="true" [height]="'100px'" [hideActions]="true"
+  (sectionDelete)="onSectionDelete($event)"></app-section-card>
 
 
 <app-section-tabs [section]="section"></app-section-tabs>

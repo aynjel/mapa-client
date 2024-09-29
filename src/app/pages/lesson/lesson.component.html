@@ -1,0 +1,11 @@
+<ng-container *ngIf="lessons$ | async as lessons;">
+  <div class="search-form">
+    <app-search (search)="onSubmitSearch($event)" [placeholder]="'Search Lessons'"></app-search>
+  </div>
+  <app-lesson-list [lessons]="lessons" (lessonClick)="onClick($event)" (lessonDelete)="onDeleteLesson($event)"
+    [isLoading]="isLoading" />
+</ng-container>
+
+<ng-container *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+</ng-container>

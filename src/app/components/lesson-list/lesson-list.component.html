@@ -1,0 +1,13 @@
+<div class="lesson-list" *ngIf="lessons.length; else noLesson">
+  <ng-container *ngFor="let lesson of lessons">
+    <app-lesson-card [lesson]="lesson" (lessonClick)="onLessonClick($event)" (lessonDelete)="onLessonDelete($event)" />
+  </ng-container>
+</div>
+
+<ng-template #noLesson>
+  <mat-card appearance="outlined" class="no-lessons">
+    <mat-card-content>
+      {{ isLoading ? 'Loading...' : 'No Lesson found' }}
+    </mat-card-content>
+  </mat-card>
+</ng-template>

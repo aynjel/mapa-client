@@ -1,11 +1,12 @@
 import { APIResponse } from './api/api-response.types';
+import { Section } from './section.types';
 
 export type Announcement = {
   slug: string;
   title: string;
   description: string;
   content: any;
-  section: string;
+  section: Section;
   author: string;
   commentsCount: number;
   likesCount: number;

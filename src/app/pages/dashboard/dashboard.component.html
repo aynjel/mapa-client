@@ -1,25 +1,15 @@
 <ng-container *ngIf="sections$ | async as sections;">
   <div class="search-form">
-    <app-search (search)="onSubmitSearch($event)" [placeholder]="'Search section'"></app-search>
-    <button mat-raised-button color="primary" (click)="onClickAddSection()">Add Section</button>
+    <app-search (search)="onSubmitSearch($event)" [placeholder]="'Search Section'"></app-search>
+    <ng-container *ngIf="user$ | async as user">
+      <button mat-raised-button color="primary" (click)="onClickAddSection()" *ngIf="user.role === 'teacher'">Add
+        Section</button>
+    </ng-container>
   </div>
-  <app-section-list [sections]="sections" [isLoading]="isLoading" (sectionClick)="onClick($event)" />
+  <app-section-list [sections]="sections" [isLoading]="isLoading" (sectionClick)="onClick($event)"
+    (sectionDelete)="onDeleteSection($event)" [hideActions]="false" />
 </ng-container>
 
 <ng-container *ngIf="isLoading">
   <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
 </ng-container>
-
-<!-- <mat-list role="list" *ngIf="sections$ | async as sections">
-  <mat-list-item role="listitem" *ngFor="let section of sections">
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-card-title>Poodle</mat-card-title>
-        <mat-card-subtitle>Non-sporting group</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-actions align="end">
-        <button mat-button>Learn More</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-list-item>
-</mat-list> -->

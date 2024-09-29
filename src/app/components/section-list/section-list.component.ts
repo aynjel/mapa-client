@@ -10,8 +10,15 @@ export class SectionListComponent {
   @Input() sections: Section[] = [];
   @Input() isLoading: boolean = false;
   @Output() sectionClick = new EventEmitter<Section>();
+  @Output() sectionDelete = new EventEmitter<Section>();
+
+  @Input() hideActions = false;
 
   onSectionClick(section: Section) {
     this.sectionClick.emit(section);
+  }
+
+  onSectionDelete(section: Section) {
+    this.sectionDelete.emit(section);
   }
 }

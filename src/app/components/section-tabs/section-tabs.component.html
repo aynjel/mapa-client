@@ -2,46 +2,27 @@
   <mat-tab label="Announcements">
     <div class="search-form">
       <app-search />
-      <button mat-raised-button color="primary" (click)="onClickAddAnnouncement()">Add Announcement</button>
+      <ng-container *ngIf="user$ | async as user">
+        <button mat-raised-button color="primary" (click)="onClickAddAnnouncement()" *ngIf="user.role === 'teacher'">Add
+          Announcement</button>
+      </ng-container>
     </div>
     <ng-container *ngIf="announcements$ | async as announcements;">
       <app-announcement-list [announcements]="announcements" [isLoading]="isLoading"
-        (announcementClick)="onClickAnnouncement($event)" />
+        (announcementClick)="onClickAnnouncement($event)" (announcementDelete)="onDeleteAnnouncement($event)" />
     </ng-container>
   </mat-tab>
   <mat-tab label="Lessons">
     <div class="search-form">
       <app-search />
-      <button mat-raised-button color="primary" (click)="onClickAddAnnouncement()">Add Lesson</button>
+      <ng-container *ngIf="user$ | async as user">
+        <button mat-raised-button color="primary" (click)="onClickAddLesson()" *ngIf="user.role === 'teacher'">Add
+          Lesson</button>
+      </ng-container>
     </div>
-    <ng-container *ngIf="announcements$ | async as announcements;">
-      <app-announcement-list [announcements]="announcements" [isLoading]="isLoading"
-        (announcementClick)="onClickAnnouncement($event)" />
+    <ng-container *ngIf="lessons$ | async as lessons;">
+      <app-lesson-list [lessons]="lessons" [isLoading]="isLoading" (lessonClick)="onClickLesson($event)"
+        (lessonDelete)="onDeleteLesson($event)" />
     </ng-container>
   </mat-tab>
-  <!-- <mat-tab label="Students">
-    <app-search (search)="applyFilter($event)" />
-
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{inputValue}}"</td>
-      </tr>
-    </table>
-
-  </mat-tab>
-  <mat-tab label="Teachers"> Content 2 </mat-tab> -->
 </mat-tab-group>

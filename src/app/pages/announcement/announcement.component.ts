@@ -3,6 +3,7 @@ import { AnnouncementService } from '../../shared/services/announcement.service'
 import { Announcement } from '../../shared/types/announcement.types';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-announcement',
@@ -16,7 +17,8 @@ export class AnnouncementComponent implements OnInit {
 
   constructor(
     private announcementService: AnnouncementService,
-    private route: Router
+    private route: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +49,24 @@ export class AnnouncementComponent implements OnInit {
   }
 
   onClick(announcement: Announcement) {
+    console.log(announcement);
+
     this.route.navigate(['/mapa/dashboard', announcement.slug]);
+  }
+
+  onDeleteAnnouncement(a: Announcement) {
+    if (a) {
+      this.announcementService.deleteAnnouncement(a).subscribe({
+        next: () => {
+          this.loadData();
+          this.snackBar.open('Announcement deleted', 'Close', {
+            duration: 3000,
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
   }
 }

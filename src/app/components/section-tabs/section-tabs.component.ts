@@ -5,26 +5,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { AnnouncementFormComponent } from '../announcement-form/announcement-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { AnnouncementService } from '../../shared/services/announcement.service';
-import { BehaviorSubject, finalize } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  EMPTY,
+  finalize,
+  forkJoin,
+  Observable,
+  of,
+} from 'rxjs';
 import { Announcement } from '../../shared/types/announcement.types';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen' },
-  { position: 2, name: 'Helium' },
-  { position: 3, name: 'Lithium' },
-  { position: 4, name: 'Beryllium' },
-  { position: 5, name: 'Boron' },
-  { position: 6, name: 'Carbon' },
-  { position: 7, name: 'Nitrogen' },
-  { position: 8, name: 'Oxygen' },
-  { position: 9, name: 'Fluorine' },
-  { position: 10, name: 'Neon' },
-];
+import { LessonFormComponent } from '../lesson-form/lesson-form.component';
+import { Lesson } from '../../shared/types/lesson.types';
+import { LessonService } from '../../shared/services/lesson.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../shared/services/auth.service';
+import { UserDataSource } from '../../shared/types/user.types';
 
 @Component({
   selector: 'app-section-tabs',
@@ -39,50 +35,71 @@ export class SectionTabsComponent implements OnInit {
   inputValue: string = '';
 
   displayedColumns: string[] = ['position', 'name'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   announcementSource = new BehaviorSubject<Announcement[]>([]);
+  lessonSource = new BehaviorSubject<Lesson[]>([]);
 
   announcements$ = this.announcementSource.asObservable();
+  lessons$ = this.lessonSource.asObservable();
+
+  user$: Observable<UserDataSource | null> = of(null);
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private announcementService: AnnouncementService,
-    private matDialog: MatDialog
+    private lessonService: LessonService,
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.user$ = this.authService.current$;
     this.isLoading = true;
     this.loadSectionData();
   }
 
   loadSectionData(page?: number, limit?: number) {
-    // section slug from url
+    // Combine HTTP requests for efficiency (if applicable):
     const sectionSlug =
       this.activatedRoute.snapshot.paramMap.get('sectionSlug');
     if (sectionSlug) {
-      this.announcementService
-        .getAnnouncementsBySection(sectionSlug, page, limit)
-        .pipe(finalize(() => (this.isLoading = false)))
-        .subscribe({
-          next: (res) => {
-            console.log(res);
-            this.announcementSource.next(res.data);
-          },
-          error: (error) => {
+      // Use `forkJoin` to combine requests if services are on the same backend
+      this.isLoading = true; // Set loading state before requests
+
+      forkJoin([
+        this.announcementService.getAnnouncementsBySection(
+          sectionSlug,
+          page,
+          limit
+        ),
+        this.lessonService.getLessonsBySection(sectionSlug, page, limit),
+      ])
+        .pipe(
+          finalize(() => (this.isLoading = false)),
+          catchError((error) => {
             console.error(error);
             this.announcementSource.next([]);
-          },
+            this.lessonSource.next([]);
+            return EMPTY; // Handle errors gracefully, prevent further processing
+          })
+        )
+        .subscribe(([announcementsResponse, lessonsResponse]) => {
+          this.announcementSource.next(announcementsResponse.data);
+          this.lessonSource.next(lessonsResponse.data);
         });
     }
   }
 
   applyFilter(event: string) {
-    this.dataSource.filter = event.trim().toLowerCase();
     this.inputValue = event;
   }
 
   onClickAnnouncement(event: Announcement) {
+    console.log(event);
+  }
+
+  onClickLesson(event: Lesson) {
     console.log(event);
   }
 
@@ -98,5 +115,53 @@ export class SectionTabsComponent implements OnInit {
           this.loadSectionData();
         }
       });
+  }
+
+  onClickAddLesson() {
+    this.matDialog
+      .open(LessonFormComponent, {
+        width: '600px',
+        data: this.section,
+      })
+      .afterClosed()
+      .subscribe((res: Lesson) => {
+        if (res) {
+          this.loadSectionData();
+        }
+      });
+  }
+
+  onDeleteAnnouncement(a: Announcement) {
+    // console.log(a);
+
+    if (a) {
+      this.announcementService.deleteAnnouncement(a).subscribe({
+        next: () => {
+          this.loadSectionData();
+          this.snackBar.open('Announcement deleted', 'Close', {
+            duration: 3000,
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
+  }
+
+  onDeleteLesson(l: Lesson) {
+    if (l) {
+      this.lessonService.deleteLesson(l).subscribe({
+        next: () => {
+          this.loadSectionData();
+          this.snackBar.open('Lesson deleted', 'Close', {
+            duration: 3000,
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
   }
 }

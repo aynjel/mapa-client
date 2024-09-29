@@ -8,16 +8,32 @@
 </div>
 
 <mat-nav-list>
-  @for(menuItem of menuItems; track $index){
-  <a mat-list-item class="menu-items" [routerLink]="menuItem.route" routerLinkActive="selected-menu-item"
-    #rla="routerLinkActive" [activated]="rla.isActive" matTooltip="{{menuItem.label}}" matTooltipPosition="right">
-    <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>{{ menuItem.icon
-      }}</mat-icon>
-    @if(!collapsed){
-    <span matListItemTitle>{{ menuItem.label }}</span>
+  <ng-container *ngIf="user$ | async as user">
+    @if(user.role === 'teacher'){
+    @for(menuItem of menuItemsTeacher; track $index){
+    <a mat-list-item class="menu-items" [routerLink]="menuItem.route" routerLinkActive="selected-menu-item"
+      #rla="routerLinkActive" [activated]="rla.isActive" matTooltip="{{menuItem.label}}" matTooltipPosition="right">
+      <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>{{ menuItem.icon
+        }}</mat-icon>
+      @if(!collapsed){
+      <span matListItemTitle>{{ menuItem.label }}</span>
+      }
+    </a>
     }
-  </a>
-  }
+    } @else {
+    @for(menuItem of menuItemsPandS; track $index){
+    <a mat-list-item class="menu-items" [routerLink]="menuItem.route" routerLinkActive="selected-menu-item"
+      #rla="routerLinkActive" [activated]="rla.isActive" matTooltip="{{menuItem.label}}" matTooltipPosition="right">
+      <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>{{ menuItem.icon
+        }}</mat-icon>
+      @if(!collapsed){
+      <span matListItemTitle>{{ menuItem.label }}</span>
+      }
+    </a>
+    }
+    }
+  </ng-container>
+
   <a mat-list-item class="menu-items" (click)="logout()" matTooltip="Logout" matTooltipPosition="right">
     <mat-progress-spinner *ngIf="isLoggingOut" color="primary" mode="indeterminate"
       [diameter]="24"></mat-progress-spinner>

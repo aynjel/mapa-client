@@ -2,7 +2,8 @@
   <div class="search-form">
     <app-search (search)="onSubmitSearch($event)" [placeholder]="'Search Announcements'"></app-search>
   </div>
-  <app-announcement-list [announcements]="announcements" (announcementClick)="onClick($event)" />
+  <app-announcement-list [announcements]="announcements" (announcementClick)="onClick($event)"
+    (announcementDelete)="onDeleteAnnouncement($event)" [isLoading]="isLoading" />
 </ng-container>
 
 <ng-container *ngIf="isLoading">

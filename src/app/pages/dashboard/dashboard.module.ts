@@ -6,6 +6,7 @@ import { sectionResolver } from '../../resolvers/section.resolver';
 import { ProfileComponent } from '../profile/profile.component';
 import { AnnouncementComponent } from '../announcement/announcement.component';
 import { UserComponent } from '../user/user.component';
+import { LessonComponent } from '../lesson/lesson.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
     path: 'announcements',
     component: AnnouncementComponent,
     title: 'Announcements',
+  },
+  {
+    path: 'lessons',
+    component: LessonComponent,
+    title: 'Lesson',
   },
   {
     path: 'users',

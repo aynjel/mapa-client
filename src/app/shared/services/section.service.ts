@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   CreateSectionPayload,
+  Section,
   SectionListResponse,
   SectionResponse,
 } from '../types/section.types';
@@ -30,6 +31,12 @@ export class SectionService {
     return this.http.post<SectionResponse>(
       `${environment.base_url}/api/sections`,
       payload
+    );
+  }
+
+  deleteSection(s: Section): Observable<SectionResponse> {
+    return this.http.delete<SectionResponse>(
+      `${environment.base_url}/api/sections/${s.slug}`
     );
   }
 }

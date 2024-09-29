@@ -41,6 +41,11 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TableComponent } from './components/table/table.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { LessonComponent } from './pages/lesson/lesson.component';
+import { LessonListComponent } from './components/lesson-list/lesson-list.component';
+import { LessonCardComponent } from './components/lesson-card/lesson-card.component';
+import { LessonFormComponent } from './components/lesson-form/lesson-form.component';
+import { AlertComponent } from './shared/components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +68,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     NotFoundComponent,
     TableComponent,
     UserListComponent,
+    LessonComponent,
+    LessonListComponent,
+    LessonCardComponent,
+    LessonFormComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SectionService } from '../../shared/services/section.service';
 import { Router } from '@angular/router';
 import { Section } from '../../shared/types/section.types';
-import { BehaviorSubject, finalize, map } from 'rxjs';
+import { BehaviorSubject, finalize, map, Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { SectionFormComponent } from '../../components/section-form/section-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../shared/services/auth.service';
+import { UserDataSource } from '../../shared/types/user.types';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,14 +18,18 @@ export class DashboardComponent implements OnInit {
   private sectionsSource = new BehaviorSubject<Section[]>([]);
   sections$ = this.sectionsSource.asObservable();
   isLoading = false;
+  user$: Observable<UserDataSource | null> = of(null);
 
   constructor(
     private sectionService: SectionService,
     private route: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.user$ = this.authService.current$;
     this.isLoading = true;
     this.loadData();
   }
@@ -72,5 +79,21 @@ export class DashboardComponent implements OnInit {
 
   onClick(section: Section) {
     this.route.navigate(['/mapa/dashboard', section.slug]);
+  }
+
+  onDeleteSection(s: Section) {
+    if (s) {
+      this.sectionService.deleteSection(s).subscribe({
+        next: () => {
+          this.loadData();
+          this.snackBar.open('Announcement deleted', 'Close', {
+            duration: 3000,
+          });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
   }
 }

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Announcement } from '../../../shared/types/announcement.types';
 import { AnnouncementService } from '../../../shared/services/announcement.service';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, delay, finalize, Observable, of } from 'rxjs';
 import { UserDataSource } from '../../../shared/types/user.types';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../../../shared/components/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-details',
@@ -24,6 +25,7 @@ export class DetailsComponent implements OnInit {
   user$: Observable<UserDataSource | null> = of(null);
 
   constructor(
+    public titleService: Title,
     private announcementService: AnnouncementService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
@@ -41,11 +43,19 @@ export class DetailsComponent implements OnInit {
 
     this.announcementService
       .getAnnouncement(this.announcementSlug)
-      .subscribe((res) => {
-        if (res) {
+      .pipe(
+        delay(1000),
+        finalize(() => (this.isLoading = false))
+      )
+      .subscribe({
+        next: (res) => {
           this.announcementSource.next(res.data);
-          this.isLoading = false;
-        }
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.message || error.message, 'Close', {
+            duration: 3000,
+          });
+        },
       });
   }
 
@@ -72,5 +82,9 @@ export class DetailsComponent implements OnInit {
         });
       }
     });
+  }
+
+  back() {
+    window.history.back();
   }
 }

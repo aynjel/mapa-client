@@ -11,3 +11,14 @@ body {
   box-sizing: border-box;
   overflow: hidden;
 }
+
+main {
+  padding: 20px;
+  background-color: #87a2ff;
+  padding-bottom: 100px;
+  min-height: 100vh;
+}
+
+.fill-space {
+  flex: 1;
+}

@@ -12,6 +12,8 @@ import { authGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DetailsComponent } from './pages/announcement/details/details.component';
 import { DetailsLayoutComponent } from './layout/details-layout/details-layout.component';
+import { SectionComponent } from './pages/section/section.component';
+import { sectionResolver } from './resolvers/section.resolver';
 
 const routes: Routes = [
   {
@@ -36,8 +38,15 @@ const routes: Routes = [
   },
   {
     path: 'mapa/details',
-    component: DetailsLayoutComponent,
     children: [
+      {
+        path: 'sections/:sectionSlug',
+        component: SectionComponent,
+        resolve: {
+          section: sectionResolver,
+        },
+        title: 'Section Details',
+      },
       {
         path: 'announcements/:announcementSlug',
         component: DetailsComponent,

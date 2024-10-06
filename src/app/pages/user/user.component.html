@@ -9,19 +9,18 @@
 
   <ng-container *ngIf="users.length">
     <div class="mat-elevation-z8">
-      <table mat-table class="full-width-table" aria-label="Elements" [dataSource]="dataSource"
-        matTooltip="Users Table">
+      <table mat-table class="full-width-table" aria-label="Elements" [dataSource]="dataSource">
 
         <!-- name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-cell *matCellDef="let element" [matTooltip]="element.name"> {{element.name}} </td>
         </ng-container>
 
         <!-- email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          <td mat-cell *matCellDef="let element" [matTooltip]="element.email"> {{element.email}} </td>
         </ng-container>
 
         <!-- role Column -->

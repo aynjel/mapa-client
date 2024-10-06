@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
-import { SectionComponent } from '../section/section.component';
-import { sectionResolver } from '../../resolvers/section.resolver';
 import { ProfileComponent } from '../profile/profile.component';
 import { AnnouncementComponent } from '../announcement/announcement.component';
 import { UserComponent } from '../user/user.component';
@@ -14,19 +12,10 @@ const routes: Routes = [
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
-
   {
     path: 'dashboard',
     component: DashboardComponent,
     title: 'Dashboard',
-  },
-  {
-    path: 'dashboard/:sectionSlug',
-    component: SectionComponent,
-    resolve: {
-      section: sectionResolver,
-    },
-    title: 'Section',
   },
   {
     path: 'profile',

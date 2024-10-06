@@ -5,6 +5,10 @@ import { SectionService } from '../../shared/services/section.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../../shared/components/alert/alert.component';
+import { BehaviorSubject, delay, finalize, Observable, of } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { UserDataSource } from '../../shared/types/user.types';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-section',
@@ -12,17 +16,25 @@ import { AlertComponent } from '../../shared/components/alert/alert.component';
   styleUrl: './section.component.scss',
 })
 export class SectionComponent implements OnInit {
-  section: Section = {} as Section;
+  private sectionSource = new BehaviorSubject<Section>({} as Section);
+  section$ = this.sectionSource.asObservable();
+  isLoading = false;
+
+  user$: Observable<UserDataSource | null> = of(null);
 
   constructor(
+    public titleService: Title,
     private sectionService: SectionService,
     private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar,
     private route: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.user$ = this.authService.current$;
+    this.isLoading = true;
     this.loadSectionData();
   }
 
@@ -31,17 +43,19 @@ export class SectionComponent implements OnInit {
     const sectionSlug =
       this.activatedRoute.snapshot.paramMap.get('sectionSlug');
     if (sectionSlug) {
-      this.sectionService.getSection(sectionSlug).subscribe({
-        next: (res) => {
-          this.section = res.data;
-        },
-        error: (error) => {
-          console.error(error);
-          this.snackbar.open(error.error.message || error.message, 'Close', {
-            duration: 3000,
-          });
-        },
-      });
+      this.sectionService
+        .getSection(sectionSlug)
+        .pipe(finalize(() => (this.isLoading = false)))
+        .subscribe({
+          next: (res) => {
+            this.sectionSource.next(res.data);
+          },
+          error: (error) => {
+            this.snackbar.open(error.error.message || error.message, 'Close', {
+              duration: 3000,
+            });
+          },
+        });
     }
   }
 
@@ -78,5 +92,9 @@ export class SectionComponent implements OnInit {
         }
       });
     }
+  }
+
+  back() {
+    window.history.back();
   }
 }

@@ -1,7 +1,7 @@
 <div class="section-list" *ngIf="sections.length; else noSections">
   <ng-container *ngFor="let section of sections">
     <app-section-card [section]="section" (sectionClick)="onSectionClick($event)"
-      (sectionDelete)="onSectionDelete($event)" [hideActions]="hideActions"></app-section-card>
+      [hideActions]="hideActions"></app-section-card>
   </ng-container>
 </div>
 

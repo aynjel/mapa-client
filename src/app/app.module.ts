@@ -50,6 +50,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DetailsComponent } from './pages/announcement/details/details.component';
 import { DetailsLayoutComponent } from './layout/details-layout/details-layout.component';
+import { LessonDetailsComponent } from './pages/lesson/lesson-details/lesson-details.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { DetailsLayoutComponent } from './layout/details-layout/details-layout.c
     AlertComponent,
     DetailsComponent,
     DetailsLayoutComponent,
+    LessonDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,33 @@
-<app-section-card [section]="section" [isDetailsPage]="true" [height]="'100px'" [hideActions]="true"
-  (sectionDelete)="onSectionDelete($event)"></app-section-card>
+<ng-container *ngIf="section$ | async as section">
+  <mat-toolbar>
+    <button mat-icon-button aria-label="Back Nav" matTooltip="Back" (click)="back()">
+      <mat-icon>
+        arrow_back
+      </mat-icon>
+    </button>
+    <span>{{ section.title | titlecase }}</span>
+    <span class="fill-space"></span>
+    <ng-container *ngIf="user$ | async as user">
+      <button mat-icon-button color="warn" (click)="onSectionDelete(section)" *ngIf="user.role === 'teacher'"
+        matTooltip="Delete">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </ng-container>
+  </mat-toolbar>
 
+  <main>
+    <ng-container *ngIf="isLoading">
+      <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+    </ng-container>
 
-<app-section-tabs [section]="section"></app-section-tabs>
+    <ng-container *ngIf="!isLoading">
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          {{section.description}}
+        </mat-card-content>
+      </mat-card>
+
+      <app-section-tabs [section]="section"></app-section-tabs>
+    </ng-container>
+  </main>
+</ng-container>

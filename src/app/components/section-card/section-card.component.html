@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" [style.height]="height">
+<mat-card appearance="outlined" [style.height]="height" [routerLink]="['/mapa/details/sections', section.slug]">
   <mat-card-header>
     <mat-card-title *ngIf="hideActions">{{section.title | titlecase}}
     </mat-card-title>
@@ -6,19 +6,6 @@
       <span *ngIf="section.title.length > 20">...</span>
     </mat-card-title>
     <mat-card-subtitle>{{section.description}}</mat-card-subtitle>
-    <span class="fill-space"></span>
-    <mat-card-actions align="end">
-      <ng-container *ngIf="hideActions">
-        <ng-container *ngIf="user$ | async as user">
-          <button mat-icon-button color="warn" (click)="onSectionDelete(section)" *ngIf="user.role === 'teacher'">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </ng-container>
-      </ng-container>
-      <button mat-button color="primary" (click)="onSectionClick(section)" *ngIf="!hideActions">
-        <mat-icon>open_in_new</mat-icon>
-      </button>
-    </mat-card-actions>
   </mat-card-header>
   <mat-card-content></mat-card-content>
 </mat-card>

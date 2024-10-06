@@ -1,0 +1,11 @@
+table {
+  background-color: aqua;
+  width: 100%;
+  max-width: 100px;
+  overflow-x: auto;
+
+  th,
+  td {
+    text-align: left;
+  }
+}

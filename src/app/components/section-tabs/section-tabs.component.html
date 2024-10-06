@@ -9,7 +9,7 @@
     </div>
     <ng-container *ngIf="announcements$ | async as announcements;">
       <app-announcement-list [announcements]="announcements" [isLoading]="isLoading"
-        (announcementClick)="onClickAnnouncement($event)" (announcementDelete)="onDeleteAnnouncement($event)" />
+        (announcementDelete)="onDeleteAnnouncement($event)" />
     </ng-container>
   </mat-tab>
   <mat-tab label="Lessons">

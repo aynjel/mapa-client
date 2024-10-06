@@ -132,8 +132,6 @@ export class SectionTabsComponent implements OnInit {
   }
 
   onDeleteAnnouncement(a: Announcement) {
-    // console.log(a);
-
     if (a) {
       this.announcementService.deleteAnnouncement(a).subscribe({
         next: () => {

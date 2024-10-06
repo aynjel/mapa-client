@@ -1,7 +1,6 @@
 <div class="announcement-list" *ngIf="announcements.length; else noAnnouncement">
   <ng-container *ngFor="let announcement of announcements">
-    <app-announcement-card [announcement]="announcement" (announcementClick)="onAnnouncementClick($event)"
-      (announcementDelete)="onAnnouncementDelete($event)" />
+    <app-announcement-card [announcement]="announcement" (announcementDelete)="onAnnouncementDelete($event)" />
   </ng-container>
 </div>
 

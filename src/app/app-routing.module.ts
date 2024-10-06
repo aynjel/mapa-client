@@ -10,6 +10,8 @@ import { UserComponent } from './pages/user/user.component';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
 import { authGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { DetailsComponent } from './pages/announcement/details/details.component';
+import { DetailsLayoutComponent } from './layout/details-layout/details-layout.component';
 
 const routes: Routes = [
   {
@@ -30,6 +32,18 @@ const routes: Routes = [
       import('./pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'mapa/details',
+    component: DetailsLayoutComponent,
+    children: [
+      {
+        path: 'announcements/:announcementSlug',
+        component: DetailsComponent,
+        title: 'Announcement Details',
+      },
+    ],
     canActivate: [authGuard],
   },
   {

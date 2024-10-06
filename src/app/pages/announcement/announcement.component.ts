@@ -48,12 +48,6 @@ export class AnnouncementComponent implements OnInit {
     console.log(searchKeyText);
   }
 
-  onClick(announcement: Announcement) {
-    console.log(announcement);
-
-    this.route.navigate(['/mapa/dashboard', announcement.slug]);
-  }
-
   onDeleteAnnouncement(a: Announcement) {
     if (a) {
       this.announcementService.deleteAnnouncement(a).subscribe({

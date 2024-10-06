@@ -34,6 +34,12 @@ export class AnnouncementService {
     );
   }
 
+  getAnnouncement(announcementSlug: string): Observable<AnnouncementResponse> {
+    return this.http.get<AnnouncementResponse>(
+      `${environment.base_url}/api/posts/details/${announcementSlug}`
+    );
+  }
+
   getAnnouncementsBySection(
     section: string,
     page?: number,

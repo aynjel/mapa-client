@@ -7,12 +7,6 @@
     <mat-card-subtitle>{{announcement.description}}</mat-card-subtitle>
     <span class="fill-space"></span>
     <mat-card-actions align="end">
-      <ng-container *ngIf="user$ | async as user">
-        <button mat-icon-button color="warn" (click)="onAnnouncementDelete(announcement)"
-          *ngIf="user.role === 'teacher'">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </ng-container>
       <button mat-button color="primary" (click)="onAnnouncementClick(announcement)">
         View
       </button>

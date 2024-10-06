@@ -1,0 +1,12 @@
+<mat-toolbar>
+  <button mat-icon-button aria-label="Back Nav" matTooltip="Back" (click)="back()">
+    <mat-icon>
+      arrow_back
+    </mat-icon>
+  </button>
+  <span>{{ titleService.getTitle() }}</span>
+</mat-toolbar>
+
+<main>
+  <router-outlet />
+</main>

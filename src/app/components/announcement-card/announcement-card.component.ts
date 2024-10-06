@@ -5,6 +5,7 @@ import { AlertComponent } from '../../shared/components/alert/alert.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { Observable, of } from 'rxjs';
 import { UserDataSource } from '../../shared/types/user.types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-announcement-card',
@@ -13,33 +14,21 @@ import { UserDataSource } from '../../shared/types/user.types';
 })
 export class AnnouncementCardComponent {
   @Input() announcement!: Announcement;
-  @Output() announcementClick = new EventEmitter<Announcement>();
   @Output() announcementDelete = new EventEmitter<Announcement>();
 
   user$: Observable<UserDataSource | null> = of(null);
 
-  constructor(private matDialog: MatDialog, private authService: AuthService) {}
+  constructor(
+    private matDialog: MatDialog,
+    private authService: AuthService,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.authService.current$;
   }
 
-  onAnnouncementDelete(announcement: Announcement) {
-    const dialogRef = this.matDialog.open(AlertComponent, {
-      data: {
-        title: `Delete ${announcement.title}`,
-        message: 'Are you sure you want to delete this announcement?',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.announcementDelete.emit(announcement);
-      }
-    });
-  }
-
   onAnnouncementClick(announcement: Announcement) {
-    this.announcementClick.emit(announcement);
+    this.route.navigate(['/mapa/details/announcements', announcement.slug]);
   }
 }

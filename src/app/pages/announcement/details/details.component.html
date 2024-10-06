@@ -1,0 +1,21 @@
+<ng-container *ngIf="announcement$ | async as announcement">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{announcement.title | titlecase}}</mat-card-title>
+      <mat-card-subtitle>{{announcement.description}}</mat-card-subtitle>
+      <span class="fill-space"></span>
+      <mat-card-actions align="end">
+        <ng-container *ngIf="user$ | async as user">
+          <button mat-icon-button color="warn" (click)="onDeleteAnnouncement(announcement)"
+            *ngIf="user.role === 'teacher'">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content>
+      <pdf-viewer [src]="announcement.content" [render-text]="true" [original-size]="false"
+        style="width: 100%; height: 300px"></pdf-viewer>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

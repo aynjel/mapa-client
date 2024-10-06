@@ -46,6 +46,10 @@ import { LessonListComponent } from './components/lesson-list/lesson-list.compon
 import { LessonCardComponent } from './components/lesson-card/lesson-card.component';
 import { LessonFormComponent } from './components/lesson-form/lesson-form.component';
 import { AlertComponent } from './shared/components/alert/alert.component';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { DetailsComponent } from './pages/announcement/details/details.component';
+import { DetailsLayoutComponent } from './layout/details-layout/details-layout.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +77,8 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     LessonCardComponent,
     LessonFormComponent,
     AlertComponent,
+    DetailsComponent,
+    DetailsLayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +99,8 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     MatDialogModule,
     MatTabsModule,
     MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     PdfViewerModule,
   ],
   providers: [

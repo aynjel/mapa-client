@@ -9,12 +9,7 @@ import { Announcement } from '../../shared/types/announcement.types';
 export class AnnouncementListComponent {
   @Input() announcements: Announcement[] = [];
   @Input() isLoading: boolean = false;
-  @Output() announcementClick = new EventEmitter<Announcement>();
   @Output() announcementDelete = new EventEmitter<Announcement>();
-
-  onAnnouncementClick(announcement: Announcement) {
-    this.announcementClick.emit(announcement);
-  }
 
   onAnnouncementDelete(announcement: Announcement) {
     this.announcementDelete.emit(announcement);

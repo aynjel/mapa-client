@@ -3,7 +3,7 @@
     [deleteBtn]="true" [commentBtn]="true" (deleteBtnEmitter)="onDeleteAnnouncement(announcement)"
     [commentCount]="announcement.commentsCount" (editBtnEmitter)="onEditAnnouncement(announcement)"
     [isLoading]="isLoading">
-    <pdf-viewer [src]="announcement.content" [render-text]="true" style="height: 100%" />
+    <pdf-viewer [src]="announcement.content" [render-text]="true" [original-size]="false" style="height: 100%" />
 
     <div comments class="comment-container" *ngIf="comments$ | async as comments">
       <h3>{{comments.length ? 'Comments' : 'No comments'}}</h3>

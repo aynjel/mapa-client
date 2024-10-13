@@ -1,6 +1,6 @@
 <ng-container *ngIf="lesson$ | async as lesson">
   <app-page-layout [title]="lesson.title" [description]="lesson.description" [editBtn]="true" [deleteBtn]="true"
     (deleteBtnEmitter)="onDeleteLesson(lesson)" (editBtnEmitter)="onEditLesson(lesson)" [isLoading]="isLoading">
-    <pdf-viewer [src]="lesson.content" [render-text]="true" style="height: 100%" />
+    <pdf-viewer [src]="lesson.content" [render-text]="true" [original-size]="false" style="height: 100%" />
   </app-page-layout>
 </ng-container>

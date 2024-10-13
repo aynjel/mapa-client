@@ -1,0 +1,23 @@
+mat-toolbar {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  position: relative;
+  z-index: 2;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+mat-sidenav,
+mat-sidenav-content {
+  transition: all 500ms ease-in-out;
+}
+
+mat-sidenav {
+  background-color: var(--primary-color);
+}
+
+mat-sidenav-content {
+  padding: 20px;
+}

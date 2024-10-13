@@ -17,10 +17,10 @@ export class AnnouncementService {
 
   createAnnouncement(
     data: FormData,
-    section: string
+    sectionSlug: string
   ): Observable<AnnouncementResponse> {
     return this.http.post<AnnouncementResponse>(
-      `${environment.base_url}/api/posts/create/${section}`,
+      `${environment.base_url}/api/posts/create/${sectionSlug}`,
       data
     );
   }
@@ -40,7 +40,7 @@ export class AnnouncementService {
     );
   }
 
-  getAnnouncementsBySection(
+  getAnnouncementsBySectionId(
     section: string,
     page?: number,
     limit?: number
@@ -52,7 +52,17 @@ export class AnnouncementService {
 
   deleteAnnouncement(a: Announcement): Observable<AnnouncementResponse> {
     return this.http.delete<AnnouncementResponse>(
-      `${environment.base_url}/api/posts/${a.section.slug}/${a.slug}`
+      `${environment.base_url}/api/posts/${a.slug}`
+    );
+  }
+
+  updateAnnouncement(
+    a: Announcement,
+    aPayload: FormData
+  ): Observable<AnnouncementResponse> {
+    return this.http.put<AnnouncementResponse>(
+      `${environment.base_url}/api/posts/${a.slug}`,
+      aPayload
     );
   }
 }

@@ -1,17 +1,17 @@
 <form [formGroup]="lessonForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
   <h3>
-    Create Lesson
+    {{data.lesson ? 'Edit Lesson' : 'Create Lesson'}}
   </h3>
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
-    <input matInput type="text" formControlName="title" [disabled]="isLoading" />
+    <input matInput type="text" formControlName="title" />
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Description</mat-label>
-    <textarea matInput type="text" formControlName="description" [disabled]="isLoading"></textarea>
+    <textarea matInput type="text" formControlName="description"></textarea>
   </mat-form-field>
   <!-- <input type="file" formControlName="content" (change)="onFileSelected($event)" /> -->
-  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload [disabled]="isLoading">
+  <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
 
   <div class="file-upload">
 
@@ -24,7 +24,7 @@
   </div>
   <button mat-raised-button type="submit" color="primary" [disabled]="isLoading">
     <ng-container *ngIf="!isLoading; else loading">
-      Create
+      {{data.lesson ? 'Edit' : 'Create'}}
     </ng-container>
     <ng-template #loading>
       <mat-spinner diameter="20" color="primary"></mat-spinner>

@@ -39,4 +39,14 @@ export class SectionService {
       `${environment.base_url}/api/sections/${s.slug}`
     );
   }
+
+  updateSection(
+    s: Section,
+    sPayload: CreateSectionPayload
+  ): Observable<SectionResponse> {
+    return this.http.patch<SectionResponse>(
+      `${environment.base_url}/api/sections/${s.slug}`,
+      sPayload
+    );
+  }
 }

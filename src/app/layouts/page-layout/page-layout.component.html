@@ -1,0 +1,101 @@
+<app-progress-loader *ngIf="isLoading" />
+
+
+<mat-toolbar>
+  <button mat-icon-button aria-label="Back Nav" matTooltip="Back" (click)="back()">
+    <mat-icon>
+      arrow_back
+    </mat-icon>
+  </button>
+  <span>{{ title | titlecase }}</span>
+  <span class="fill-space"></span>
+
+  <button class="more-btn" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Page Actions" color="primary"
+    matTooltip="More">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item matTooltip="More Info" matTooltipPosition="after" (click)="onMoreInfo()">
+      <mat-icon color="primary">info</mat-icon>
+      <span>More Info</span>
+    </button>
+    <button mat-menu-item (click)="onEdit()" [disabled]="!editBtn" matTooltip="Edit" matTooltipPosition="after">
+      <mat-icon color="primary">edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="onDelete()" [disabled]="!deleteBtn" matTooltip="Delete" matTooltipPosition="after">
+      <mat-icon color="warn">delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<mat-drawer-container class="drawer-container" autosize>
+
+  <ng-content />
+
+  <mat-drawer #drawer class="drawer-sidenav" mode="over" position="end">
+    <button mat-icon-button color="primary" (click)="drawer.toggle()" matTooltip="Close" aria-label="Close"
+      matTooltipPosition="after">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="drawer-sidenav-content">
+      <h3>Comments</h3>
+      <mat-list role="list" class="comment-list">
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem">
+          <span matListItemTitle>This is my first Comment</span>
+          <span matListItemLine>John Doe | 2 hours ago</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Comments</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary">Comment</button>
+
+      <!-- <ng-content select="[comments]" /> -->
+    </div>
+  </mat-drawer>
+
+  <div class="comment-btn-container" *ngIf="commentBtn && !isLoading">
+    <button mat-icon-button color="primary" (click)="drawer.toggle()" matTooltip="Comments" aria-label="Comments"
+      matTooltipPosition="after">
+      <mat-icon matBadgeColor="warn" matBadge="{{2}}">
+        comment
+      </mat-icon>
+    </button>
+  </div>
+</mat-drawer-container>

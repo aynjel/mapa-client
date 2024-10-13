@@ -8,8 +8,9 @@
       </ng-container>
     </div>
     <ng-container *ngIf="announcements$ | async as announcements;">
-      <app-announcement-list [announcements]="announcements" [isLoading]="isLoading"
-        (announcementDelete)="onDeleteAnnouncement($event)" />
+      <app-list-items [lists]="announcements" (onClickEmitter)="onClickAnnouncement($event)" [icon]="'announcement'" />
+      <!-- <app-announcement-list [announcements]="announcements" [isLoading]="isLoading"
+        (announcementDelete)="onDeleteAnnouncement($event)" /> -->
     </ng-container>
   </mat-tab>
   <mat-tab label="Lessons">
@@ -21,8 +22,9 @@
       </ng-container>
     </div>
     <ng-container *ngIf="lessons$ | async as lessons;">
-      <app-lesson-list [lessons]="lessons" [isLoading]="isLoading" (lessonClick)="onClickLesson($event)"
-        (lessonDelete)="onDeleteLesson($event)" />
+      <app-list-items [lists]="lessons" (onClickEmitter)="onClickLesson($event)" [icon]="'library_books'" />
+      <!-- <app-lesson-list [lessons]="lessons" [isLoading]="isLoading" (lessonClick)="onClickLesson($event)"
+        (lessonDelete)="onDeleteLesson($event)" /> -->
     </ng-container>
   </mat-tab>
 </mat-tab-group>

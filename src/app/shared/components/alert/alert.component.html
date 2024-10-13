@@ -2,11 +2,7 @@
 <mat-dialog-content>
   <p>{{data.message}}</p>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">
-    Cancel
-  </button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="warn">
-    Ok
-  </button>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="warn" (click)=" onConfirm()">Confirm</button>
 </mat-dialog-actions>

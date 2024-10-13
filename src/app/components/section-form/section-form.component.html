@@ -1,21 +1,21 @@
 <form [formGroup]="sectionForm" (ngSubmit)="onSubmit()">
   <h3>
-    Create Section
+    {{data ? 'Edit Section' : 'Create Section'}}
   </h3>
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
-    <input matInput type="text" formControlName="title" [disabled]="isLoading" />
+    <input matInput type="text" formControlName="title" />
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Description</mat-label>
-    <textarea matInput type="text" formControlName="description" [disabled]="isLoading"></textarea>
+    <textarea matInput type="text" formControlName="description"></textarea>
   </mat-form-field>
-  <button mat-raised-button type="submit" color="primary" [disabled]="isLoading">
+  <button mat-raised-button type="submit" color="primary">
     <ng-container *ngIf="!isLoading; else loading">
-      Create
+      {{data ? 'Edit' : 'Create'}}
     </ng-container>
     <ng-template #loading>
-      <mat-spinner diameter="20" color="accent"></mat-spinner>
+      <mat-spinner diameter="20" color="primary"></mat-spinner>
     </ng-template>
   </button>
 </form>

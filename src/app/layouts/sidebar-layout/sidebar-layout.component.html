@@ -1,0 +1,18 @@
+<mat-toolbar>
+  <button mat-icon-button aria-label="Side Nav" (click)="setCollapse(!collapse)" matTooltip="Menu">
+    <mat-icon>
+      {{ collapse ? 'menu' : 'close' }}
+    </mat-icon>
+  </button>
+  <span>{{ titleService.getTitle() }}</span>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side" [style.width]="sideNavWidth()">
+    <app-sidenav [collapsed]="collapse" />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content" [style.margin-left]="sideNavWidth()">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>

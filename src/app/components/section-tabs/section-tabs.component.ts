@@ -3,7 +3,7 @@ import { Section } from '../../shared/types/section.types';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnouncementFormComponent } from '../announcement-form/announcement-form.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnnouncementService } from '../../shared/services/announcement.service';
 import {
   BehaviorSubject,
@@ -50,7 +50,8 @@ export class SectionTabsComponent implements OnInit {
     private lessonService: LessonService,
     private matDialog: MatDialog,
     private snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {
@@ -68,12 +69,12 @@ export class SectionTabsComponent implements OnInit {
       this.isLoading = true; // Set loading state before requests
 
       forkJoin([
-        this.announcementService.getAnnouncementsBySection(
+        this.announcementService.getAnnouncementsBySectionId(
           sectionSlug,
           page,
           limit
         ),
-        this.lessonService.getLessonsBySection(sectionSlug, page, limit),
+        this.lessonService.getLessonsBySectionId(sectionSlug, page, limit),
       ])
         .pipe(
           finalize(() => (this.isLoading = false)),
@@ -96,18 +97,20 @@ export class SectionTabsComponent implements OnInit {
   }
 
   onClickAnnouncement(event: Announcement) {
-    console.log(event);
+    this.route.navigate(['/mapa/details/announcements', event.slug]);
   }
 
   onClickLesson(event: Lesson) {
-    console.log(event);
+    this.route.navigate(['/mapa/details/lessons', event.slug]);
   }
 
   onClickAddAnnouncement() {
     this.matDialog
       .open(AnnouncementFormComponent, {
         width: '600px',
-        data: this.section,
+        data: {
+          sectionSlug: this.section.slug,
+        },
       })
       .afterClosed()
       .subscribe((res: Announcement) => {
@@ -121,7 +124,9 @@ export class SectionTabsComponent implements OnInit {
     this.matDialog
       .open(LessonFormComponent, {
         width: '600px',
-        data: this.section,
+        data: {
+          sectionSlug: this.section.slug,
+        },
       })
       .afterClosed()
       .subscribe((res: Lesson) => {
@@ -161,5 +166,9 @@ export class SectionTabsComponent implements OnInit {
         },
       });
     }
+  }
+
+  onEditAnnouncement(a: Announcement): void {
+    console.log(a);
   }
 }

@@ -4,11 +4,12 @@ import { AnnouncementService } from '../../../shared/services/announcement.servi
 import { BehaviorSubject, delay, finalize, Observable, of } from 'rxjs';
 import { UserDataSource } from '../../../shared/types/user.types';
 import { AuthService } from '../../../shared/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../../../shared/components/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
+import { AnnouncementFormComponent } from '../../../components/announcement-form/announcement-form.component';
 
 @Component({
   selector: 'app-details',
@@ -30,7 +31,8 @@ export class DetailsComponent implements OnInit {
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private route: Router
   ) {
     this.activatedRoute.params.subscribe(
       (params) => (this.announcementSlug = params['announcementSlug'])
@@ -59,32 +61,51 @@ export class DetailsComponent implements OnInit {
       });
   }
 
-  onDeleteAnnouncement(a: Announcement) {
-    const dialogRef = this.matDialog.open(AlertComponent, {
+  onEditAnnouncement(a: Announcement): void {
+    const dialogRef = this.matDialog.open(AnnouncementFormComponent, {
+      width: '600px',
       data: {
-        title: `Delete ${a.title}`,
-        message: 'Are you sure you want to delete this announcement?',
+        announcement: a,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.announcementService.deleteAnnouncement(a).subscribe({
-          next: () => {
-            this.snackBar.open('Announcement deleted', 'Close', {
+        this.announcementSource.next(result);
+      }
+    });
+  }
+
+  onDeleteAnnouncement(a: Announcement): void {
+    this.isLoading = true;
+
+    const dialogRef = this.matDialog.open(AlertComponent, {
+      width: '600px',
+      data: {
+        title: 'Confirm Delete',
+        message: 'Proceed to delete?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.announcementService
+          .deleteAnnouncement(a)
+          .pipe(finalize(() => (this.isLoading = false)))
+          .subscribe((res) => {
+            this.snackBar.open(res.message, 'Close', {
               duration: 3000,
             });
             window.history.back();
-          },
-          error: (error) => {
-            console.error(error);
-          },
-        });
+          });
+      } else {
+        this.isLoading = false;
       }
     });
   }
 
   back() {
+    // this.route.navigate(['/mapa/details/announcements', this.announcementSlug]);
     window.history.back();
   }
 }

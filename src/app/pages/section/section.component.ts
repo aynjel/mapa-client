@@ -9,6 +9,7 @@ import { BehaviorSubject, delay, finalize, Observable, of } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { UserDataSource } from '../../shared/types/user.types';
 import { AuthService } from '../../shared/services/auth.service';
+import { SectionFormComponent } from '../../components/section-form/section-form.component';
 
 @Component({
   selector: 'app-section',
@@ -38,7 +39,7 @@ export class SectionComponent implements OnInit {
     this.loadSectionData();
   }
 
-  loadSectionData() {
+  loadSectionData(): void {
     // section slug from url
     const sectionSlug =
       this.activatedRoute.snapshot.paramMap.get('sectionSlug');
@@ -59,42 +60,49 @@ export class SectionComponent implements OnInit {
     }
   }
 
-  onSectionDelete(section: Section) {
-    if (section) {
-      const dialog = this.matDialog.open(AlertComponent, {
-        data: {
-          title: 'Delete Section',
-          message:
-            'Please note that this will delete all related announcement and lesson to this section',
-        },
-      });
+  onDeleteSection(section: Section): void {
+    const dialog = this.matDialog.open(AlertComponent, {
+      data: {
+        title: 'Confirm Delete',
+        message:
+          'Proceed to delete this section? This action cannot be undone.',
+      },
+    });
 
-      dialog.afterClosed().subscribe((res) => {
-        if (res) {
-          this.sectionService.deleteSection(section).subscribe({
-            next: (res) => {
-              this.snackbar.open(res.message, 'Close', {
-                duration: 3000,
-              });
-              this.route.navigate(['/mapa']);
-            },
-            error: (error) => {
-              console.error(error);
-              this.snackbar.open(
-                error.error.message || error.message,
-                'Close',
-                {
-                  duration: 3000,
-                }
-              );
-            },
-          });
-        }
-      });
-    }
+    dialog.afterClosed().subscribe((res) => {
+      if (res) {
+        this.sectionService.deleteSection(section).subscribe({
+          next: (res) => {
+            this.snackbar.open(res.message, 'Close', {
+              duration: 3000,
+            });
+            this.route.navigate(['/mapa']);
+          },
+          error: (error) => {
+            console.error(error);
+            this.snackbar.open(error.error.message || error.message, 'Close', {
+              duration: 3000,
+            });
+          },
+        });
+      }
+    });
   }
 
-  back() {
+  onEditSection(section: Section): void {
+    const dialog = this.matDialog.open(SectionFormComponent, {
+      width: '600px',
+      data: section,
+    });
+
+    dialog.afterClosed().subscribe((res: Section) => {
+      if (res) {
+        this.loadSectionData();
+      }
+    });
+  }
+
+  back(): void {
     window.history.back();
   }
 }

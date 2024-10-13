@@ -1,7 +1,26 @@
-<div class="announcement-list" *ngIf="announcements.length; else noAnnouncement">
-  <ng-container *ngFor="let announcement of announcements">
-    <app-announcement-card [announcement]="announcement" (announcementDelete)="onAnnouncementDelete($event)" />
-  </ng-container>
+<div class="list">
+  <mat-list role="list">
+    <ng-container *ngFor="let announcement of announcements">
+      <mat-list-item role="listitem" [matTooltip]="announcement.title">
+        <mat-icon matListItemIcon>announcement</mat-icon>
+        <div matListItemTitle>{{announcement.title | titlecase}}</div>
+        <div matListItemLine>{{announcement.description}}</div>
+
+        <span class="button-container" matListItemMeta>
+          <button mat-stroked-button color="primary" matTooltip="View">
+            <mat-icon>open_in_new</mat-icon>
+            View
+          </button>
+        </span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
+
+  <!-- <div *ngIf=" announcements.length; else noAnnouncement">
+        <ng-container *ngFor="let announcement of announcements">
+          <app-announcement-card [announcement]="announcement" (announcementDelete)="onAnnouncementDelete($event)" />
+        </ng-container>
 </div>
 
 <ng-template #noAnnouncement>
@@ -10,4 +29,5 @@
       {{ isLoading ? 'Loading...' : 'No Announcement found' }}
     </mat-card-content>
   </mat-card>
-</ng-template>
+</ng-template> -->
+</div>

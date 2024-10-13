@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  CreateLessonPayload,
   Lesson,
   LessonListResponse,
   LessonResponse,
@@ -27,19 +28,32 @@ export class LessonService {
     );
   }
 
-  getLessonsBySection(
+  getLessonById(lessonSlug: string): Observable<LessonResponse> {
+    return this.http.get<LessonResponse>(
+      `${environment.base_url}/api/lessons/${lessonSlug}`
+    );
+  }
+
+  getLessonsBySectionId(
     section: string,
     page?: number,
     limit?: number
   ): Observable<LessonListResponse> {
     return this.http.get<LessonListResponse>(
-      `${environment.base_url}/api/lessons/${section}?page=${page}&limit=${limit}`
+      `${environment.base_url}/api/lessons/sections/${section}?page=${page}&limit=${limit}`
     );
   }
 
   deleteLesson(l: Lesson): Observable<LessonResponse> {
     return this.http.delete<LessonResponse>(
-      `${environment.base_url}/api/lessons/${l.section.slug}/${l.slug}`
+      `${environment.base_url}/api/lessons/${l.slug}`
+    );
+  }
+
+  updateLesson(l: Lesson, lPayload: FormData): Observable<LessonResponse> {
+    return this.http.put<LessonResponse>(
+      `${environment.base_url}/api/lessons/${l.slug}`,
+      lPayload
     );
   }
 }

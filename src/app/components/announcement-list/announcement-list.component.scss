@@ -1,10 +1,14 @@
-// .announcement-list {
-//   height: 100%;
-// display: grid;
-// grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-// grid-gap: 20px;
-// }
+.announcement-list {
+  padding: 0 20px;
+}
 
-.no-announcements {
-  margin-bottom: 20px;
+.button-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
 }

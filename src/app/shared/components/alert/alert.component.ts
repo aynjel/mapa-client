@@ -12,7 +12,7 @@ export class AlertComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onConfirm(): void {
+    this.dialogRef.close(true);
   }
 }

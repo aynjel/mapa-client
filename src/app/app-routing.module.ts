@@ -14,6 +14,9 @@ import { DetailsComponent } from './pages/announcement/details/details.component
 import { DetailsLayoutComponent } from './layout/details-layout/details-layout.component';
 import { SectionComponent } from './pages/section/section.component';
 import { sectionResolver } from './resolvers/section.resolver';
+import { SidebarLayoutComponent } from './layouts/sidebar-layout/sidebar-layout.component';
+import { PageLayoutComponent } from './layouts/page-layout/page-layout.component';
+import { LessonDetailsComponent } from './pages/lesson/lesson-details/lesson-details.component';
 
 const routes: Routes = [
   {
@@ -29,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: 'mapa',
-    component: DefaultComponent,
+    component: SidebarLayoutComponent,
     loadChildren: () =>
       import('./pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
@@ -51,6 +54,11 @@ const routes: Routes = [
         path: 'announcements/:announcementSlug',
         component: DetailsComponent,
         title: 'Announcement Details',
+      },
+      {
+        path: 'lessons/:lessonSlug',
+        component: LessonDetailsComponent,
+        title: 'Lesson Details',
       },
     ],
     canActivate: [authGuard],

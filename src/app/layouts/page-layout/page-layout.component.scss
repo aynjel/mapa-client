@@ -1,0 +1,41 @@
+mat-toolbar {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.more-btn {
+  color: var(--text-color);
+}
+
+.comment-btn-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+  }
+}
+
+.drawer-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.drawer-sidenav-content {
+  padding: 0 20px;
+}
+
+.drawer-sidenav {
+  width: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.comment-list {
+  height: 360px;
+  overflow: auto;
+}

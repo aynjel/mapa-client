@@ -51,6 +51,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DetailsComponent } from './pages/announcement/details/details.component';
 import { DetailsLayoutComponent } from './layout/details-layout/details-layout.component';
 import { LessonDetailsComponent } from './pages/lesson/lesson-details/lesson-details.component';
+import { SidebarLayoutComponent } from './layouts/sidebar-layout/sidebar-layout.component';
+import { PageLayoutComponent } from './layouts/page-layout/page-layout.component';
+import { ProgressLoaderComponent } from './shared/components/progress-loader/progress-loader.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MoreInfoComponent } from './shared/components/more-info/more-info.component';
+import { CreateFormComponent } from './components/create-form/create-form.component';
+import { SectionCreateFormComponent } from './components/section-create-form/section-create-form.component';
+import { ListItemsComponent } from './components/list-items/list-items.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +91,13 @@ import { LessonDetailsComponent } from './pages/lesson/lesson-details/lesson-det
     DetailsComponent,
     DetailsLayoutComponent,
     LessonDetailsComponent,
+    SidebarLayoutComponent,
+    PageLayoutComponent,
+    ProgressLoaderComponent,
+    MoreInfoComponent,
+    CreateFormComponent,
+    SectionCreateFormComponent,
+    ListItemsComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +120,9 @@ import { LessonDetailsComponent } from './pages/lesson/lesson-details/lesson-det
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
     PdfViewerModule,
   ],
   providers: [

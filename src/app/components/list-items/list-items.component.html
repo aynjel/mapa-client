@@ -1,0 +1,28 @@
+<div class="list-container">
+  <mat-list role="list" *ngIf="lists.length; else noList">
+    <ng-container *ngFor="let list of lists">
+      <mat-list-item role="listitem">
+        <mat-icon matListItemIcon *ngIf="icon">{{icon}}</mat-icon>
+        <div matListItemTitle>{{list.title | titlecase}}</div>
+        <div matListItemLine>{{list.description}}</div>
+
+        <span class="button-container" matListItemMeta>
+          <button mat-stroked-button color="primary" matTooltip="View" (click)="onClickEmit(list)">
+            <mat-icon>open_in_new</mat-icon>
+            View
+          </button>
+        </span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
+
+  <ng-template #noList>
+    <mat-card appearance="outlined" class="no-announcements">
+      <mat-card-content>
+        {{ 'No Record found' }}
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+
+</div>

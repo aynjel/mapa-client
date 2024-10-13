@@ -1,7 +1,31 @@
 <ng-container *ngIf="announcement$ | async as announcement">
   <app-page-layout [title]="announcement.title" [description]="announcement.description" [editBtn]="true"
     [deleteBtn]="true" [commentBtn]="true" (deleteBtnEmitter)="onDeleteAnnouncement(announcement)"
-    (editBtnEmitter)="onEditAnnouncement(announcement)" [isLoading]="isLoading">
-    <pdf-viewer [src]="announcement.content" [render-text]="true" [original-size]="false" style="height: 100%" />
+    [commentCount]="announcement.commentsCount" (editBtnEmitter)="onEditAnnouncement(announcement)"
+    [isLoading]="isLoading">
+    <pdf-viewer [src]="announcement.content" [render-text]="true" style="height: 100%" />
+
+    <div comments class="comment-container" *ngIf="comments$ | async as comments">
+      <h3>{{comments.length ? 'Comments' : 'No comments'}}</h3>
+
+      <mat-list role="list" class="comment-list" *ngIf="comments.length;">
+        <ng-container *ngFor="let comment of comments">
+          <mat-list-item role="listitem">
+            <span matListItemTitle>{{comment.content}}</span>
+            <span matListItemLine>{{comment.author.name}} | {{comment.createdAt | date :'medium'}}</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+      </mat-list>
+
+      <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()" class="comment-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Type your comment</mat-label>
+          <textarea matInput formControlName='content'></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="commentForm.invalid">Comment</button>
+      </form>
+    </div>
   </app-page-layout>
 </ng-container>

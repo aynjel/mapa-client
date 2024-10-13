@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { UserListResponse } from '../types/user.types';
+import { UserListResponse, UserResponse } from '../types/user.types';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -12,5 +12,11 @@ export class UserService {
 
   getUsers(): Observable<UserListResponse> {
     return this.http.get<UserListResponse>(`${environment.base_url}/api/users`);
+  }
+
+  getUserById(userId: string): Observable<UserResponse> {
+    return this.http.get<UserResponse>(
+      `${environment.base_url}/api/users/${userId}`
+    );
   }
 }

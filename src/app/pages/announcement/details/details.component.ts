@@ -10,6 +10,13 @@ import { AlertComponent } from '../../../shared/components/alert/alert.component
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { AnnouncementFormComponent } from '../../../components/announcement-form/announcement-form.component';
+import {
+  Comment,
+  CreateCommentPayload,
+} from '../../../shared/types/comment.types';
+import { CommentService } from '../../../shared/services/comment.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-details',
@@ -19,20 +26,29 @@ import { AnnouncementFormComponent } from '../../../components/announcement-form
 export class DetailsComponent implements OnInit {
   announcementSource = new BehaviorSubject<Announcement>({} as Announcement);
   announcement$ = this.announcementSource.asObservable();
+
+  commentsSource = new BehaviorSubject<Comment[]>([]);
+  comments$ = this.commentsSource.asObservable();
+
   isLoading = false;
 
   announcementSlug: string = '';
 
   user$: Observable<UserDataSource | null> = of(null);
 
+  commentForm: FormGroup = new FormGroup({});
+
   constructor(
     public titleService: Title,
     private announcementService: AnnouncementService,
     private authService: AuthService,
+    private commentService: CommentService,
+    private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private matDialog: MatDialog,
-    private route: Router
+    private route: Router,
+    private fb: FormBuilder
   ) {
     this.activatedRoute.params.subscribe(
       (params) => (this.announcementSlug = params['announcementSlug'])
@@ -59,6 +75,47 @@ export class DetailsComponent implements OnInit {
           });
         },
       });
+
+    this.commentForm = this.fb.group({
+      content: ['', Validators.required],
+    });
+
+    this.loadComments();
+  }
+
+  onSubmitComment(): void {
+    this.commentService
+      .createComment(this.commentForm.value.content, this.announcementSlug)
+      .subscribe((res) => {
+        this.snackBar.open(res.message, 'Close', {
+          duration: 3000,
+        });
+        this.loadComments();
+        this.commentForm.reset();
+      });
+  }
+
+  loadComments(): void {
+    this.commentService.getComments(this.announcementSlug).subscribe({
+      next: (res) => {
+        const comments = res.data;
+
+        comments.forEach((comment) => {
+          this.userService
+            .getUserById(comment.author)
+            .pipe(delay(1000))
+            .subscribe((res) => {
+              comment.author = res.data;
+              this.commentsSource.next(comments);
+            });
+        });
+      },
+      error: (error) => {
+        this.snackBar.open(error.error.message || error.message, 'Close', {
+          duration: 3000,
+        });
+      },
+    });
   }
 
   onEditAnnouncement(a: Announcement): void {

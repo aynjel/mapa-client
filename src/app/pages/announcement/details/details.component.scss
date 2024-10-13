@@ -1,0 +1,17 @@
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  margin: 0 10px;
+}
+
+.comment-list {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}

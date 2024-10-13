@@ -51,7 +51,7 @@ export class LessonComponent {
   }
 
   onClick(lesson: Lesson) {
-    this.route.navigate(['/mapa/lesson', lesson.slug]);
+    this.route.navigate(['/mapa/details/lessons', lesson.slug]);
   }
 
   onDeleteLesson(l: Lesson) {

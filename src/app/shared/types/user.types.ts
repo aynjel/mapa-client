@@ -20,3 +20,5 @@ export type CurrentUserResponse = APIResponse<UserDataSource>;
 export type LogoutResponse = APIResponse<string>;
 
 export type UserListResponse = APIResponse<User[]>;
+
+export type UserResponse = APIResponse<UserDataSource>;

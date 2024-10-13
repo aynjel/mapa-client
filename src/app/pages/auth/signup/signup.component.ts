@@ -14,7 +14,8 @@ export class SignupComponent {
   registerForm: FormGroup = new FormGroup({});
   isLoading = false;
 
-  protected readonly roles: string[] = ['parent', 'teacher', 'student'];
+  // protected readonly roles: string[] = ['parent', 'teacher', 'student'];
+  protected readonly roles: string[] = ['parent', 'teacher'];
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,

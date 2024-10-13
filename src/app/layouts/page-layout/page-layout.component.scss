@@ -25,7 +25,7 @@ mat-toolbar {
 }
 
 .drawer-sidenav-content {
-  padding: 0 20px;
+  // height: 100%;
 }
 
 .drawer-sidenav {
@@ -33,9 +33,4 @@ mat-toolbar {
   border-right: 1px solid rgba(0, 0, 0, 0.5);
   background-color: var(--primary-color);
   color: var(--text-color);
-}
-
-.comment-list {
-  height: 360px;
-  overflow: auto;
 }

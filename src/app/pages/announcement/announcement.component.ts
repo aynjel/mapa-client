@@ -49,11 +49,9 @@ export class AnnouncementComponent implements OnInit {
   }
 
   onClick(announcement: Announcement) {
-    console.log(announcement);
-
-    // if (announcement) {
-    //   this.route.navigate(['/announcements', announcement.slug]);
-    // }
+    if (announcement) {
+      this.route.navigate(['/mapa/details/announcements', announcement.slug]);
+    }
   }
 
   onDeleteAnnouncement(a: Announcement) {
